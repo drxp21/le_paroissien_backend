@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Evenement;
+use App\Models\Institution;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -10,17 +11,21 @@ class EvenementController extends Controller
 {
     public function index()
     {
-        // $eglise_id = Auth::user()->eglise ? Auth::user()->eglise->id : Auth::user()->agent->eglise->id;
-        $evenements = Evenement::all();
+        $evenements = Institution::find(HelperFuncs::getInstitutionId())->evenements;
         return Inertia::render('Eglise/EvenementsView', compact('evenements'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'contenu' => 'required',
+            'titre' => 'required',
+            'date' => 'required',
+            'description' => 'required',
+            'frais' => 'required',
         ]);
-        Evenement::create($request->all());
+        $dataToInsert = $request->all();
+        $dataToInsert['institution_id'] = HelperFuncs::getInstitutionId();
+        Evenement::create($dataToInsert);
     }
 
     public function update($id, Request $request)

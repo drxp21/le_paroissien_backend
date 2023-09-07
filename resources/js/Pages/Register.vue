@@ -9,13 +9,13 @@ import { Head, Link, useForm } from "@inertiajs/vue3";
 let createForm = useForm({
     statut: "",
     denomination: "",
-    archidiocese: "",
+    diocese: "",
     doyenne: "",
     adresse: "",
     telephonefixe: "",
     telephonemobile: "",
     slogan:"",
-    email: "",
+    emailinstitution: "",
     nomresp: "",
     prenomresp: "",
     titreresp: "",
@@ -29,7 +29,8 @@ let createForm = useForm({
 });
 </script>
 <template>
-    <form class="pb-20">
+    <Head title="Demande d'adhésion" />
+    <form class="pb-20" @submit.prevent="createForm.post(route('institutions.store'))">
         <div class="w-full px-20 pt-10 grid grid-cols-2 gap-5">
             <div class="my-1 col-span-2 font-bold text-lg">
                 Informations sur l'institution
@@ -51,30 +52,41 @@ let createForm = useForm({
                         <option value="pouponniere">Pouponnière</option>
                         <option value="groupepriere">Groupe de Prière</option>
                     </select>
+                    <InputError
+                        class="mt-2"
+                        :message="createForm.errors.statut"
+                    />
                 </div>
                 <div
                     class="mt-4"
                     v-if="
                         createForm.statut == 'cathedrale' ||
                         createForm.statut == 'paroisse' ||
+                        createForm.statut == 'chapelle' ||
                         createForm.statut == 'quasiparoisse'
                     "
                 >
                     <InputLabel
-                        for="archidiocese"
+                        for="diocese"
                         value="Archidiocèse/Diocèse "
                     />
-                    <TextInput
-                        id="archidiocese"
-                        v-model="createForm.archidiocese"
-                        type="text"
-                        class="mt-1 block w-full"
-                        required
-                        autocomplete="archidiocese"
-                    />
+                    <select
+
+                        class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-md shadow-sm"
+                        v-model="createForm.diocese"
+                    >
+                        <option value="Dakar">Dakar</option>
+                        <option value="Kaolack">Kaolack</option>
+                        <option value="Kolda">Kolda</option>
+                        <option value="Saint-Louis">Saint-Louis</option>
+                        <option value="Tambacounda">Tambacounda</option>
+                        <option value="Thiès">Thiès</option>
+                        <option value="Zinguinchor">Zinguinchor</option>
+                    </select>
+
                     <InputError
                         class="mt-2"
-                        :message="createForm.errors.archidiocese"
+                        :message="createForm.errors.diocese"
                     />
                 </div>
                 <div
@@ -82,6 +94,7 @@ let createForm = useForm({
                     v-if="
                         createForm.statut == 'cathedrale' ||
                         createForm.statut == 'paroisse' ||
+                        createForm.statut == 'chapelle' ||
                         createForm.statut == 'quasiparoisse'
                     "
                 >
@@ -91,30 +104,12 @@ let createForm = useForm({
                         v-model="createForm.doyenne"
                         type="text"
                         class="mt-1 block w-full"
-                        required
+
                         autocomplete="doyenne"
                     />
                     <InputError
                         class="mt-2"
                         :message="createForm.errors.doyenne"
-                    />
-                </div>
-                <div
-                    class="mt-4"
-
-                >
-                    <InputLabel for="slogan" value="Doyenné" />
-                    <TextInput
-                        id="slogan"
-                        v-model="createForm.slogan"
-                        type="text"
-                        class="mt-1 block w-full"
-                        required
-                        autocomplete="slogan"
-                    />
-                    <InputError
-                        class="mt-2"
-                        :message="createForm.errors.slogan"
                     />
                 </div>
                 <div class="mt-4">
@@ -132,6 +127,25 @@ let createForm = useForm({
                         :message="createForm.errors.denomination"
                     />
                 </div>
+                <div
+                    class="mt-4"
+
+                >
+                    <InputLabel for="slogan" value="Slogan" />
+                    <TextInput
+                        id="slogan"
+                        v-model="createForm.slogan"
+                        type="text"
+                        class="mt-1 block w-full"
+                        required
+                        autocomplete="slogan"
+                    />
+                    <InputError
+                        class="mt-2"
+                        :message="createForm.errors.slogan"
+                    />
+                </div>
+
                 <div class="mt-4">
                     <InputLabel for="adresse" value="Adresse Physique" />
                     <TextInput
@@ -163,16 +177,16 @@ let createForm = useForm({
                     />
                     <div class="mt-4">
                         <InputLabel
-                            for="email"
+                            for="emailinstitution"
                             value="Adresse Mail Institution"
                         />
                         <TextInput
-                            id="email"
-                            v-model="createForm.email"
+                            id="emailinstitution"
+                            v-model="createForm.emailinstitution"
                             type="email"
                             class="mt-1 block w-full"
                             required
-                            autocomplete="email"
+                            autocomplete="emailinstitution"
                         />
                         <InputError
                             class="mt-2"
@@ -330,7 +344,7 @@ let createForm = useForm({
                     <TextInput
                         id="telephonefixedemandeur"
                         v-model="createForm.telephonefixedemandeur"
-                        type="email"
+                        type="text"
                         class="mt-1 block w-full"
                         required
                         autocomplete="telephonefixedemandeur"
@@ -348,7 +362,7 @@ let createForm = useForm({
                     <TextInput
                         id="telephonemobiledemandeur"
                         v-model="createForm.telephonemobiledemandeur"
-                        type="email"
+                        type="text"
                         class="mt-1 block w-full"
                         required
                         autocomplete="telephonemobiledemandeur"
@@ -373,10 +387,9 @@ let createForm = useForm({
                         :message="createForm.errors.emaildemandeur"
                     />
                 </div>
-
             </div>
 
-            <PrimaryButton>
+            <PrimaryButton type="submit">
                 Demander une adhésion
             </PrimaryButton>
         </div>

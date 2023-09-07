@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pelerinages', function (Blueprint $table) {
+        Schema::create('collectes', function (Blueprint $table) {
             $table->id();
-            $table->string('edition');
-			$table->string('theme');
-			$table->date('dateLimCar');
-			$table->date('dateLimMarche');
-			$table->string('fraisCar');
-			$table->string('fraisMarche');
-			$table->string('couverture');
+            $table->string('titre');
 			$table->text('description');
+			$table->string('minimum')->default(0);
+            $table->date('date_debut');
+            $table->date('date_cloture');
+            $table->string('objectif');
+            $table->boolean('toutlemonde')->default(false);
             $table->foreignId('institution_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pelerinages');
+        Schema::dropIfExists('collectes');
     }
 };

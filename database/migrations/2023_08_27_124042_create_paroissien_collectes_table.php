@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jour_confs', function (Blueprint $table) {
+        Schema::create('paroissien_collectes', function (Blueprint $table) {
             $table->id();
-            $table->string('jour');
-			$table->string('heureDebut');
-			$table->string('heureFin');
-            $table->foreignId('institution_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
+            $table->string('montant');
+            $table->foreignId('collecte_id')->constrained();
+            $table->foreignId('paroissien_id')->constrained();
+
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jour_confs');
+        Schema::dropIfExists('paroissien_collectes');
     }
 };

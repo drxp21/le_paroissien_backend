@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('demande_messes', function (Blueprint $table) {
+        Schema::create('dons', function (Blueprint $table) {
             $table->id();
-			$table->text('intention');
-			$table->date('date');
-			$table->string('montant');
-            $table->string('heure');
-            $table->string('type');
-            $table->foreignId('institution_id')->constrained();
-			$table->foreignId('paroissien_id')->nullable()->constrained();
             $table->timestamps();
+            $table->string('type');
+            $table->string('montant');
+            $table->text('intention')->nullable();
+            $table->string('moyen')->nullable();
+            $table->boolean('anonyme')->default(false);
+            $table->foreignId('institution_id')->constrained();
+            $table->foreignId('paroissien_id')->nullable()->constrained();
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('demande_messes');
+        Schema::dropIfExists('dons');
     }
 };

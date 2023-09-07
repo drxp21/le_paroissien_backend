@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Annonce;
 use App\Models\Institution;
-use Helper;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,8 +12,8 @@ class AnnonceController extends Controller
 
     public function index()
     {
-        $annonces = Institution::find(Helper::getInstitutionId())->annonces;
-        return Inertia::render('Eglise/', compact('annonces'));
+        $annonces = Institution::find(HelperFuncs::getInstitutionId())->annonces;
+        return Inertia::render('Eglise/AnnoncesView', compact('annonces'));
     }
 
     public function store(Request $request)
@@ -22,7 +21,9 @@ class AnnonceController extends Controller
         $request->validate([
             'contenu' => 'required',
         ]);
-        Annonce::create($request->all());
+        $dataToInsert=$request->all();
+        $dataToInsert['institution_id']=HelperFuncs::getInstitutionId();
+        Annonce::create($dataToInsert);
     }
 
     public function update($id, Request $request)

@@ -11,17 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pelerinages', function (Blueprint $table) {
+        Schema::create('paroissiens', function (Blueprint $table) {
             $table->id();
-            $table->string('edition');
-			$table->string('theme');
-			$table->date('dateLimCar');
-			$table->date('dateLimMarche');
-			$table->string('fraisCar');
-			$table->string('fraisMarche');
-			$table->string('couverture');
-			$table->text('description');
+            $table->string('nom');
+            $table->string('numero');
+            $table->string('password');
+            $table->enum('genre',['h','f']);
+            $table->string('adresse');
             $table->foreignId('institution_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pelerinages');
+        Schema::dropIfExists('paroissiens');
     }
 };

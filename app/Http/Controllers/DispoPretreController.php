@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DispoPretre;
+use App\Models\Institution;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -10,17 +11,22 @@ class DispoPretreController extends Controller
 {
     public function index()
     {
-        // $eglise_id = Auth::user()->eglise ? Auth::user()->eglise->id : Auth::user()->agent->eglise->id;
-        $dispopretre = DispoPretre::all();
-        return Inertia::render('Eglise/DispoPretresView', compact('demandemesses') );
+        $dispopretres = Institution::find(HelperFuncs::getInstitutionId())->dispopretres;
+        return Inertia::render('Eglise/DispoPretresView', compact('dispopretres'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'contenu' => 'required',
+            'nomPretre'=> 'required',
+            'jour'=> 'required',
+            'heureDebut'=> 'required',
+            'heureFin'=> 'required',
+            'heureFin' => 'required|gt:heureDebut',
         ]);
-        DispoPretre::create($request->all());
+        $dataToInsert=$request->all();
+        $dataToInsert['institution_id']=HelperFuncs::getInstitutionId();
+        DispoPretre::create($dataToInsert);
     }
 
     public function update($id, Request $request)

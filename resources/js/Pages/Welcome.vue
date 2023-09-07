@@ -33,7 +33,7 @@ let showAdhesionModal = ref(false);
             </div>
         </div>
 
-        <Modal :show="true" @close="showAdhesionModal = false">
+        <Modal :show="showAdhesionModal" @close="showAdhesionModal = false">
             <div class="px-10 py-5">
                 <div class="text-lg">Demander une adhésion</div>
                 <div class="flex gap-3 pt-5">

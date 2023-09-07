@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DemandeMesse extends Model
+class Don extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'institution_id',
-        'paroissien_id',
-        'intention',
-        'date',
-        'heure',
         'type',
         'montant',
+        'intention',
+        'moyen',
+        'anonyme',
+        'institution_id',
+        'paroissien_id',
     ];
 }
