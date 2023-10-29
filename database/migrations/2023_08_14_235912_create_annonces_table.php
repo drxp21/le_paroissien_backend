@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('annonces', function (Blueprint $table) {
             $table->id();
             $table->text('contenu');
+            $table->date('dateFin');
+            $table->boolean('actif')->default(true);
             $table->foreignId('institution_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

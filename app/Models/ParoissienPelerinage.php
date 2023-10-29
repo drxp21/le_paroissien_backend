@@ -21,6 +21,14 @@ class ParoissienPelerinage extends Model
         'paroissien_id'
     ];
 
+    protected $appends = ['paroissien_name'];
+
+    public function getParoissienNameAttribute()
+    {
+        return $this->paroissien?->nom;
+    }
+
+
     /**
      * Get the paroissien that owns the InscriptionPelerinage
      *

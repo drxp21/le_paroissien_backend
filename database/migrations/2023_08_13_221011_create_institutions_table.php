@@ -16,8 +16,8 @@ return new class extends Migration
             $table->boolean('verified')->default(false);
             $table->string('statut');
             $table->string('denomination');
-            $table->string('diociese')->nullable();
-            $table->string('doyenne');
+            $table->string('diocese')->nullable();
+            $table->string('doyenne')->nullable();
             $table->string('adresse');
             $table->string('telephonefixe');
             $table->string('telephonemobile');
@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('prenomresp');
             $table->string('titreresp');
             $table->string('emailresp');
+            $table->string('emaildemandeur');
             $table->string('operateur')->nullable();
             $table->string('numcomptemarchand')->nullable();
             $table->string('titulairecompte')->nullable();

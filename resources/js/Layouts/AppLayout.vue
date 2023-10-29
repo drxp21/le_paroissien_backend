@@ -51,7 +51,11 @@ const logout = () => {
                             </div>
 
                             <!-- Navigation Links -->
+
                             <div
+                                v-if="
+                                    $page.props.auth.user.role == 'institution'
+                                "
                                 class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
                             >
                                 <NavLink
@@ -59,6 +63,12 @@ const logout = () => {
                                     :active="route().current('dashboard')"
                                 >
                                     Vie d'église
+                                </NavLink>
+                                <NavLink
+                                    :href="route('permanences')"
+                                    :active="route().current('permanences')"
+                                >
+                                    Permanences
                                 </NavLink>
                                 <NavLink
                                     :href="route('collectes.index')"
@@ -78,7 +88,42 @@ const logout = () => {
                                         route().current('pelerinage.index')
                                     "
                                 >
-                                    Pélerinage
+                                    Pélerinage de Poponguine
+                                </NavLink>
+                                <NavLink
+                                    :href="route('historique')"
+                                    :active="
+                                        route().current('historique')
+                                    "
+                                >
+                                    Historique des transactions
+                                </NavLink>
+                            </div>
+                            <div
+                                v-if="
+                                    $page.props.auth.user.role == 'superadmin'
+                                "
+                                class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
+                            >
+                                <NavLink
+                                    :href="route('dashboard')"
+                                    :active="route().current('dashboard')"
+                                >
+                                    Demandes d'adhésions
+                                </NavLink>
+                                <NavLink
+                                    :href="route('institutions.index')"
+                                    :active="
+                                        route().current('institutions.index')
+                                    "
+                                >
+                                    Institutions
+                                </NavLink>
+                                <NavLink
+                                    :href="route('admins')"
+                                    :active="route().current('admins')"
+                                >
+                                    Utilisateurs
                                 </NavLink>
                             </div>
                         </div>
@@ -246,7 +291,7 @@ const logout = () => {
                                                 $page.props.jetstream
                                                     .managesProfilePhotos
                                             "
-                                            class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition"
+                                            class="flex text-sm border-2 border-slate-500 rounded-full focus:outline-none focus:border-gray-300 transition"
                                         >
                                             <img
                                                 class="h-8 w-8 rounded-full object-cover"
@@ -293,13 +338,13 @@ const logout = () => {
                                         <div
                                             class="block px-4 py-2 text-xs text-gray-400"
                                         >
-                                            Manage Account
+                                            Paramètres du compte
                                         </div>
 
                                         <DropdownLink
                                             :href="route('profile.show')"
                                         >
-                                            Profile
+                                            Profil
                                         </DropdownLink>
 
                                         <DropdownLink
@@ -317,7 +362,7 @@ const logout = () => {
                                         <!-- Authentication -->
                                         <form @submit.prevent="logout">
                                             <DropdownLink as="button">
-                                                Log Out
+                                                Se déconnecter
                                             </DropdownLink>
                                         </form>
                                     </template>
@@ -377,30 +422,46 @@ const logout = () => {
                     class="sm:hidden"
                 >
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink
-                            :href="route('dashboard')"
-                            :active="route().current('dashboard')"
+                        <template
+                            v-if="$page.props.auth.user.role == 'institution'"
                         >
-                            Vie d'église
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            :href="route('collectes.index')"
-                            :active="route().current('collectes.index')"
-                        >
-                            Collectes de fonds
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            :href="route('dons.index')"
-                            :active="route().current('dons.index')"
-                        >
-                            Dons
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            :href="route('pelerinage.index')"
-                            :active="route().current('pelerinage.index')"
-                        >
-                            Pélerinage
-                        </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                :href="route('dashboard')"
+                                :active="route().current('dashboard')"
+                            >
+                                Vie d'église
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                :href="route('permanences')"
+                                :active="route().current('permanences')"
+                            >
+                                Permanences
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                :href="route('collectes.index')"
+                                :active="route().current('collectes.index')"
+                            >
+                                Collectes de fonds
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                :href="route('dons.index')"
+                                :active="route().current('dons.index')"
+                            >
+                                Dons
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                :href="route('pelerinage.index')"
+                                :active="route().current('pelerinage.index')"
+                            >
+                                Pélerinage de Poponguine
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                :href="route('historique')"
+                                :active="route().current('historique')"
+                            >
+                                Historique des transaction
+                            </ResponsiveNavLink>
+                        </template>
                     </div>
 
                     <!-- Responsive Settings Options -->

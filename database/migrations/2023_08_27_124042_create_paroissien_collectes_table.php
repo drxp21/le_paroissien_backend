@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('montant');
+            $table->string('auteur')->default('Anonyme');
+            $table->string('operateur');
             $table->foreignId('collecte_id')->constrained();
-            $table->foreignId('paroissien_id')->constrained();
+            $table->foreignId('paroissien_id')->nullable()->constrained();
 
         });
     }

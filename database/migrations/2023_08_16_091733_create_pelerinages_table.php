@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('edition');
 			$table->string('theme');
+			$table->date('dateDebut')->nullable();
+			$table->date('dateFin')->nullable();
 			$table->date('dateLimCar');
 			$table->date('dateLimMarche');
 			$table->string('fraisCar');

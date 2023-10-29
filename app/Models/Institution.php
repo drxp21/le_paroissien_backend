@@ -16,7 +16,7 @@ class Institution extends Model
         'verified',
         'statut',
         'denomination',
-        'diociese',
+        'diocese',
         'doyenne',
         'adresse',
         'telephonefixe',
@@ -27,6 +27,7 @@ class Institution extends Model
         'prenomresp',
         'titreresp',
         'emailresp',
+        'emaildemandeur',
         'operateur',
         'numcomptemarchand',
         'titulairecompte',
@@ -36,6 +37,12 @@ class Institution extends Model
         'rib',
         'user_id'
     ];
+    protected $appends = ['couverture_path'];
+
+    public function getCouverturePathAttribute()
+    {
+        return request()->getSchemeAndHttpHost() . '/storage/'.$this->user?->profile_photo_path;
+    }
 
     /**
      * Get the user that owns the Institution
@@ -130,5 +137,46 @@ class Institution extends Model
     public function dons(): HasMany
     {
         return $this->hasMany(Don::class);
+    }
+
+    /**
+     * Get all of the permanences_messe for the Institution
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function permanences_messe(): HasMany
+    {
+        return $this->hasMany(PermanenceMesse::class);
+    }
+
+    /**
+     * Get all of the permanences_pretre for the Institution
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function permanences_pretre(): HasMany
+    {
+        return $this->hasMany(PermanencePretres::class);
+    }
+
+
+    /**
+     * Get all of the permanences_confession for the Institution
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function permanences_confession(): HasMany
+    {
+        return $this->hasMany(PermanenceConfession::class);
+    }
+
+    /**
+     * Get all of the permanences_secretariat for the Institution
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function permanences_secretariat(): HasMany
+    {
+        return $this->hasMany(PermanenceSecretariat::class);
     }
 }

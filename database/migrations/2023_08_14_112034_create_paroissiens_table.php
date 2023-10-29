@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('nom');
             $table->string('numero');
             $table->string('password');
-            $table->enum('genre',['h','f']);
-            $table->string('adresse');
+            $table->enum('genre',['h','f'])->nullable();
+            $table->string('adresse')->nullable();
+            $table->date('dateNaiss')->nullable();
             $table->foreignId('institution_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
 
             $table->timestamps();

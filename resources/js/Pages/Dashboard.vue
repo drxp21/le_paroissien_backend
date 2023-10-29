@@ -1,5 +1,5 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link,Head } from '@inertiajs/vue3';
 
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
@@ -10,12 +10,10 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 
 <template>
     <AppLayout title="Vie d'église">
-        <div class="bg-white h-full">
+        <Head title="Tableau de bord" />
+        <div class="bg-white h-full flex flex-col gap-4 p-20">
             <Link :href="route('annonces.index')">
                 <PrimaryButton> Gestion des annonces </PrimaryButton>
-            </Link>
-            <Link :href="route('dispopretres.index')">
-                <PrimaryButton> Gestion disponibilité </PrimaryButton>
             </Link>
             <Link :href="route('demandemesses.index')">
                 <PrimaryButton> Gestion des demandes de messes </PrimaryButton>

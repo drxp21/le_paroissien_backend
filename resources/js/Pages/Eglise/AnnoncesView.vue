@@ -16,9 +16,11 @@ let showUpdateModal = ref(false);
 
 let createForm = useForm({
     contenu: "",
+    dateFin:''
 });
 let updateForm = useForm({
     id: "",
+    dateFin:"",
     contenu: "",
 });
 let deleteForm = useForm({
@@ -28,6 +30,7 @@ let deleteForm = useForm({
 const prepareUpdate = (annonce) => {
     updateForm.id = annonce.id;
     updateForm.contenu = annonce.contenu;
+    updateForm.dateFin = annonce.dateFin;
     showUpdateModal.value = true;
 };
 const createannonce = () => {
@@ -63,17 +66,26 @@ const props = defineProps({
                     class="bg-[#cecece] rounded-t-lg py-3 flex justify-evenly items-center text-sm font-medium text-start"
                 >
                     <span class="flex-[5] pl-3"> Contenu </span>
+                    <span class="flex-[3]">Date de fin </span>
                     <span class="flex-[1]"> Crée le </span>
+                    <span class="flex-[1]"> Actif </span>
                     <span class="flex-[3] text-center">Action </span>
                 </li>
                 <li
+                    v-if="annonces.length > 0"
                     v-for="(annonce, index) in annonces"
                     class="py-2.5 flex justify- items-center text-sm font-medium hover:bg-[#b7b7b7]"
                     :class="index % 2 == 0 ? 'bg-white' : 'bg-[#cecece]'"
                 >
                     <span class="flex-[5] pl-3"> {{ annonce.contenu }} </span>
+                    <span class="flex-[3]">
+                        {{ annonce.created_at.split("T")[0] }}</span
+                    >
                     <span class="flex-[1]">
                         {{ annonce.created_at.split("T")[0] }}</span
+                    >
+                    <span class="flex-[1] text-center">
+                        {{ annonce.actif ? '✅':'❌' }}</span
                     >
                     <div class="flex-[3] flex gap-3 text-white justify-center">
                         <button
@@ -95,6 +107,12 @@ const props = defineProps({
                         </button>
                     </div>
                 </li>
+                <li
+                    v-else
+                    class="bg-[#b7b7b7] rounded-b-lg py-3 flex justify-evenly items-center text-sm font-medium text-start"
+                >
+                    Aucune inscription pour le moment
+                </li>
             </ul>
         </div>
     </AppLayout>
@@ -110,6 +128,19 @@ const props = defineProps({
                 ></textarea>
                 <InputError class="mt-2" :message="createForm.errors.contenu" />
             </div>
+            <div class="mt-4">
+                <InputLabel for="dateFin" value="Date de fin de l'annonce" />
+                <TextInput
+                    id="dateFin"
+                    v-model="createForm.dateFin"
+                    type="date"
+                    class="mt-1 block w-full"
+                    required
+                    autocomplete="dateFin"
+                />
+                <InputError class="mt-2" :message="createForm.errors.dateFin" />
+            </div>
+
             <div class="mt-4">
                 <PrimaryButton>
                     Créer
@@ -134,6 +165,18 @@ const props = defineProps({
                     rows="3"
                 ></textarea>
                 <InputError class="mt-2" :message="updateForm.errors.contenu" />
+            </div>
+            <div class="mt-4">
+                <InputLabel for="dateFin" value="Date de fin de l'annonce" />
+                <TextInput
+                    id="dateFin"
+                    v-model="updateForm.dateFin"
+                    type="date"
+                    class="mt-1 block w-full"
+                    required
+                    autocomplete="dateFin"
+                />
+                <InputError class="mt-2" :message="updateForm.errors.dateFin" />
             </div>
             <div class="mt-4">
                 <PrimaryButton>

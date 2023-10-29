@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('type');
+            $table->string('auteur')->default('Anonyme');
             $table->string('montant');
+            $table->string('operateur')->nullable();
             $table->text('intention')->nullable();
             $table->string('moyen')->nullable();
-            $table->boolean('anonyme')->default(false);
             $table->foreignId('institution_id')->constrained();
             $table->foreignId('paroissien_id')->nullable()->constrained();
         });

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('role',['superadmin','institution','agent'])->default('institution');
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
-            $table->string('profile_photo_path', 2048)->nullable();
+            $table->string('profile_photo_path', 2048)->default('profile-photos/placeholder-church.jpg');
             $table->timestamps();
         });
     }

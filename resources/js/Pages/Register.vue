@@ -3,9 +3,8 @@ import InputLabel from "../Components/InputLabel.vue";
 import InputError from "../Components/InputError.vue";
 import TextInput from "../Components/TextInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { ref } from "vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
-
+import Banner from "@/Components/Banner.vue";
 let createForm = useForm({
     statut: "",
     denomination: "",
@@ -14,7 +13,7 @@ let createForm = useForm({
     adresse: "",
     telephonefixe: "",
     telephonemobile: "",
-    slogan:"",
+    slogan: "",
     emailinstitution: "",
     nomresp: "",
     prenomresp: "",
@@ -30,7 +29,10 @@ let createForm = useForm({
 </script>
 <template>
     <Head title="Demande d'adhésion" />
-    <form class="pb-20" @submit.prevent="createForm.post(route('institutions.store'))">
+    <form
+        class="pb-20"
+        @submit.prevent="createForm.post(route('institutions.store'))"
+    >
         <div class="w-full px-20 pt-10 grid grid-cols-2 gap-5">
             <div class="my-1 col-span-2 font-bold text-lg">
                 Informations sur l'institution
@@ -39,7 +41,7 @@ let createForm = useForm({
                 <div class="mt-4">
                     <InputLabel for="statut" value="Statut" />
                     <select
-                    required
+                        required
                         autofocus
                         class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-md shadow-sm"
                         v-model="createForm.statut"
@@ -48,7 +50,7 @@ let createForm = useForm({
                         <option value="paroisse">Paroisse</option>
                         <option value="quasiparoisse">Quasi-Paroisse</option>
                         <option value="chapelle">Chapelle</option>
-                        <option value="caritative">Organisme Caritative</option>
+                        <option value="caritative">Organisme Caritatif</option>
                         <option value="pouponniere">Pouponnière</option>
                         <option value="groupepriere">Groupe de Prière</option>
                     </select>
@@ -66,12 +68,8 @@ let createForm = useForm({
                         createForm.statut == 'quasiparoisse'
                     "
                 >
-                    <InputLabel
-                        for="diocese"
-                        value="Archidiocèse/Diocèse "
-                    />
+                    <InputLabel for="diocese" value="Archidiocèse/Diocèse " />
                     <select
-
                         class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-md shadow-sm"
                         v-model="createForm.diocese"
                     >
@@ -104,7 +102,6 @@ let createForm = useForm({
                         v-model="createForm.doyenne"
                         type="text"
                         class="mt-1 block w-full"
-
                         autocomplete="doyenne"
                     />
                     <InputError
@@ -127,10 +124,7 @@ let createForm = useForm({
                         :message="createForm.errors.denomination"
                     />
                 </div>
-                <div
-                    class="mt-4"
-
-                >
+                <div class="mt-4">
                     <InputLabel for="slogan" value="Slogan" />
                     <TextInput
                         id="slogan"
@@ -190,7 +184,7 @@ let createForm = useForm({
                         />
                         <InputError
                             class="mt-2"
-                            :message="createForm.errors.email"
+                            :message="createForm.errors.emailinstitution"
                         />
                     </div>
                 </div>
@@ -276,7 +270,6 @@ let createForm = useForm({
                         :message="createForm.errors.emailresp"
                     />
                 </div>
-
             </div>
         </div>
         <div class="w-full px-20 pt-10 grid grid-cols-2 gap-5">
@@ -331,8 +324,10 @@ let createForm = useForm({
                     />
                 </div>
                 <div class="mt-4 flex gap-3 items-center">
-                    <input type="checkbox" required>
-                    <InputLabel value="Je certifie l'exactitude des informations renseignées ci-dessus" />
+                    <input type="checkbox" required />
+                    <InputLabel
+                        value="Je certifie l'exactitude des informations renseignées ci-dessus"
+                    />
                 </div>
             </div>
             <div class="w-full">
@@ -389,9 +384,8 @@ let createForm = useForm({
                 </div>
             </div>
 
-            <PrimaryButton type="submit">
-                Demander une adhésion
-            </PrimaryButton>
+            <PrimaryButton type="submit"> Demander une adhésion </PrimaryButton>
         </div>
     </form>
+    <Banner />
 </template>

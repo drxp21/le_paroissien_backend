@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('paroissien_pelerinages', function (Blueprint $table) {
             $table->id();
             $table->string('montant');
-            $table->string('operateur');
+            $table->string('operateur')->nullable();
             $table->string('nomBeneficiare');
             $table->string('numeroBeneficiare');
             $table->enum('moyen',['bus','marche']);
             $table->enum('pour',['soi','autrui']);
             $table->foreignId('institution_id')->constrained();
             $table->foreignId('pelerinage_id')->constrained();
-            $table->foreignId('paroissien_id')->constrained();
+            $table->foreignId('paroissien_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

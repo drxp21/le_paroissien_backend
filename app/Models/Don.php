@@ -13,7 +13,8 @@ class Don extends Model
         'montant',
         'intention',
         'moyen',
-        'anonyme',
+        'auteur',
+        'operateur',
         'institution_id',
         'paroissien_id',
     ];

@@ -20,6 +20,7 @@ class AnnonceController extends Controller
     {
         $request->validate([
             'contenu' => 'required',
+            'dateFin'=>'required|after:today',
         ]);
         $dataToInsert=$request->all();
         $dataToInsert['institution_id']=HelperFuncs::getInstitutionId();

@@ -10,6 +10,8 @@ class ParoissienCollecte extends Model
     use HasFactory;
     protected $fillable = [
         'montant',
+        'auteur',
+        'operateur',
         'collecte_id',
         'paroissien_id',
     ];

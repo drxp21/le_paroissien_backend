@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link,useForm } from "@inertiajs/vue3";
+import { Head, Link, useForm } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import InputLabel from "@/Components/InputLabel.vue";
@@ -8,12 +8,15 @@ import TextInput from "@/Components/TextInput.vue";
 import PencilIcon from "vue-material-design-icons/PencilOutline.vue";
 import PlusIcon from "vue-material-design-icons/Plus.vue";
 import Modal from "@/Components/Modal.vue";
-import { reactive, ref } from "vue";
+import { downloadCsv } from "@/toolbox";
 
+import { computed, ref } from "vue";
 
 const props = defineProps({
     collectes: "",
 });
+let csvData = ref([]);
+
 let showCreateModal = ref(false);
 let previewImageUrl = ref(false);
 const createForm = useForm({
@@ -23,7 +26,7 @@ const createForm = useForm({
     date_debut: "",
     date_cloture: "",
     objectif: "",
-    toutlemonde:"",
+    toutlemonde: "",
     couverture: "",
 });
 const previewFile = (event) => {
@@ -33,7 +36,7 @@ const previewFile = (event) => {
     const reader = new FileReader();
 
     reader.onload = (event) => {
-        createForm.couverture = file;
+        createForm.couverture = reader.result.split(",")[1];
         previewImageUrl.value = event.target.result;
     };
 
@@ -48,27 +51,122 @@ const createcollecte = () => {
         },
     });
 };
+const pourcentage = (total, reunis) => {
+    return (reunis * 100) / total;
+};
+const echeance = (date) => {
+    const currentDate = new Date();
+    let targetDate = new Date(date);
+    // Calculate the difference in milliseconds
+    const timeDifference = targetDate.getTime() - currentDate.getTime();
+
+    // Convert milliseconds to days
+    const daysRemaining = Math.ceil(timeDifference / (1000 * 3600 * 24));
+
+    return daysRemaining;
+};
+const createCsv = () => {
+    for (let demande of props.demandemesses) {
+        csvData.value.push({
+            date: new Date(demande.date).toLocaleDateString("fr-FR", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            }),
+            intention: demande.intention,
+        });
+    }
+    downloadCsv(
+        csvData.value,
+        "demandeMesses" + new Date().toLocaleDateString()
+    );
+};
 </script>
 <template>
     <AppLayout>
-        <Head title="Collectes" />
-        <div>Liste des collectes de fonds</div>
-        <PrimaryButton @click="showCreateModal = true">
-            Créer une collecte de fonds
-        </PrimaryButton>
-
-        <div class="pt-10 px-20 grid grid-cols-4 gap-5">
-            <Link :href="route('collectes.show',collecte)"
-                v-for="(collecte, index) in collectes"
-                :key="index"
-                class="border shadow-sm rounded-lg flex items-end p-3"
-                style="min-height: 144px"
+        <Head title="Collecte de fonds" />
+        <div class="px-10 mt-10">
+            <PrimaryButton @click="showCreateModal = true">
+                Créer une collecte de fonds
+            </PrimaryButton>
+            <!-- <button
+            v-if="collectes.length > 0"
+            class="ml-2 inline-flex items-center px-4 py-2 bg-teal-800 border border-transparent rounded-md font-semibold text-xs text-white tracking-widest hover:bg-teal-700 focus:bg-teal-700 active:bg-teal-900 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition ease-in-out duration-150"
+            @click="createCsv"
             >
-                <span
-                    class="self-end whitespace-nowrap overflow-hidden overflow-ellipsis font-semibold text-slate-900"
-                    >{{ collecte.titre }}</span
-                >
-            </Link>
+            Télécharger en csv
+        </button> -->
+    </div>
+        <div class="overflow-auto px-10">
+            <table class="text-xs font-light table-auto">
+                <thead class="border-b font-medium">
+                    <tr>
+                        <th scope="col" class="px-6 py-4">Numéro</th>
+                        <th scope="col" class="px-6 py-4">Début</th>
+                        <th scope="col" class="px-6 py-4">Intitulé</th>
+                        <th scope="col" class="px-6 py-4">Details</th>
+                        <th scope="col" class="px-6 py-4">Montant cible</th>
+                        <th scope="col" class="px-6 py-4">Date de clôture</th>
+                        <th scope="col" class="px-6 py-4">Participants</th>
+                        <th scope="col" class="px-6 py-4">Montant minimum</th>
+                        <th scope="col" class="px-6 py-4 capitalize">
+                            échéance
+                        </th>
+                        <th scope="col" class="px-6 py-4">Montant collécté</th>
+                        <th scope="col" class="px-6 py-4">
+                            Taux de réalisation
+                        </th>
+                        <th scope="col" class="px-6 py-4">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        v-if="collectes.length > 0"
+                        v-for="(collecte, index) in collectes"
+                        class="py-3 font-medium text-start hover:bg-[#b7b7b7]"
+                        :class="index % 2 == 0 ? 'bg-white' : 'bg-[#cecece]'"
+                    >
+                        <td class="px-6 py-4">{{ collecte.id }}</td>
+                        <td class="px-6 py-4">{{ collecte.date_debut }}</td>
+                        <td class="px-6 py-4">{{ collecte.titre }}</td>
+                        <td class="px-6 py-4">
+                          {{ collecte.description }}
+                        </td>
+                        <td class="px-6 py-4">{{ collecte.objectif }} cfa</td>
+                        <td class="px-6 py-4">{{ collecte.date_cloture }}</td>
+                        <td class="px-6 py-4">
+                            {{
+                                collecte.toutlemonde
+                                    ? "Tous le monde"
+                                    : "Mes paroissiens"
+                            }}
+                        </td>
+                        <td class="px-6 py-4">{{ collecte.minimum }}</td>
+                        <td class="px-6 py-4">
+                            -{{ echeance(collecte.date_cloture) }}jours
+                        </td>
+                        <td class="px-6 py-4">{{ collecte.reunis }} cfa</td>
+                        <td class="px-6 py-4">
+                            {{
+                                pourcentage(collecte.objectif, collecte.reunis)
+                            }}
+                            %
+                        </td>
+                        <td class="px-6 py-4 text-white">
+                            <Link
+                                :href="route('collectes.show', collecte.id)"
+                                class="bg-blue-700 py-2 px-4 self-start rounded-lg"
+                            >
+                                Détails
+                            </Link>
+                        </td>
+                    </tr>
+                    <tr v-else>
+                        <td colspan="12">Aucune collecte pour le moment</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </AppLayout>
     <Modal :show="showCreateModal" @close="showCreateModal = false">
@@ -167,10 +265,7 @@ const createcollecte = () => {
                 />
             </div>
             <div class="mt-4">
-                <InputLabel
-                    for="couverture"
-                    value="Image de couverture"
-                />
+                <InputLabel for="couverture" value="Image de couverture" />
                 <div class="mt-2">
                     <label
                         class="border font-medium text-sm flex items-center px-3 py-2.5 rounded-lg mt-0.5 shadow-lg"
@@ -202,21 +297,20 @@ const createcollecte = () => {
                 />
             </div>
             <div class="mt-4">
-                    <InputLabel for="toutlemonde" value="Qui peut participer ?" />
-                    <select
+                <InputLabel for="toutlemonde" value="Qui peut participer ?" />
+                <select
                     required
-                        class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-md shadow-sm"
-                        v-model="createForm.toutlemonde"
-                    >
+                    class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-md shadow-sm"
+                    v-model="createForm.toutlemonde"
+                >
                     <option :value="true">Tout le monde</option>
                     <option :value="false">Mes paroissiens</option>
-                        <InputError
+                    <InputError
                         class="mt-2"
                         :message="createForm.errors.toutlemonde"
                     />
-
-                    </select>
-                </div>
+                </select>
+            </div>
             <div class="mt-4">
                 <PrimaryButton>
                     Créer

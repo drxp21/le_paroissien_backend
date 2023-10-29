@@ -9,11 +9,15 @@ import TextInput from "@/Components/TextInput.vue";
 import PencilIcon from "vue-material-design-icons/PencilOutline.vue";
 import PlusIcon from "vue-material-design-icons/Plus.vue";
 import Modal from "@/Components/Modal.vue";
-import { ref } from "vue";
+import { downloadCsv } from "@/toolbox";
+import { ref, onMounted } from "vue";
 
 let showCreateModal = ref(false);
 let showUpdateModal = ref(false);
-
+let filterStart = ref("1970-01-01");
+let filterEnd = ref("2070-01-01");
+let csvData = ref([]);
+let demandesTmp = ref([]);
 let createForm = useForm({
     intention: "",
     date: "",
@@ -55,22 +59,84 @@ const updatedemandemesse = () => {
         },
     });
 };
+const filterDateRange = () => {
+    demandesTmp.value = props.demandemesses.filter((s) => {
+        return (
+            new Date(filterStart.value) <= new Date(s.date) &&
+            new Date(s.date) <= new Date(filterEnd.value)
+        );
+    });
+};
 const props = defineProps({
     demandemesses: "",
+});
+const createCsv = () => {
+    for (let demande of demandesTmp.value) {
+        csvData.value.push({
+            date: new Date(demande.date).toLocaleDateString("fr-FR", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            }),
+            intention: demande.intention,
+        });
+    }
+    downloadCsv(
+        csvData.value,
+        "demandeMesses" + new Date().toLocaleDateString()
+    );
+};
+onMounted(() => {
+    filterDateRange();
 });
 </script>
 <template>
     <AppLayout>
-        <Head title="Disponi" />
+        <Head title="Demandes de messe" />
         <div class="px-20">
-            <div>Gestion des demandes de messes</div>
             <PrimaryButton @click="showCreateModal = true">
                 Renseigner une demande physique
             </PrimaryButton>
+            <button
+                v-if="demandemesses.length > 0"
+                class="inline-flex items-center px-4 py-2 bg-teal-800 border border-transparent rounded-md font-semibold text-xs text-white tracking-widest hover:bg-teal-700 focus:bg-teal-700 active:bg-teal-900 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                @click="createCsv"
+            >
+                Télécharger en csv
+            </button>
+            <div class="mt-5 flex justify-center items-center gap-3">
+                Filtrer de
+                <TextInput
+                    id="date"
+                    v-model="filterStart"
+                    type="date"
+                    @change="filterDateRange"
+                />
+                à
+                <TextInput
+                    id="date"
+                    v-model="filterEnd"
+                    type="date"
+                    @change="filterDateRange"
+                />
+                <PrimaryButton
+                    @click="
+                        () => {
+                            (demandesTmp = demandemesses),
+                                (filterStart = '1970-01-01'),
+                                (filterEnd = '2070-01-01');
+                        }
+                    "
+                >
+                    Supprimer le filtre
+                </PrimaryButton>
+            </div>
             <ul class="mt-10">
                 <li
                     class="bg-[#cecece] rounded-t-lg py-3 flex justify-evenly items-center text-sm font-medium text-start"
                 >
+                    <span class="flex-[3] pl-3">Auteur</span>
                     <span class="flex-[3] pl-3"> Intention</span>
                     <span class="flex-[2] pl-3"> Date</span>
                     <span class="flex-[2] pl-3">Heure </span>
@@ -78,10 +144,14 @@ const props = defineProps({
                     <span class="flex-[3] pl-3">Action</span>
                 </li>
                 <li
-                    v-for="(demandemesse, index) in demandemesses"
+                    v-if="demandesTmp.length > 0"
+                    v-for="(demandemesse, index) in demandesTmp"
                     class="py-2.5 flex justify- items-center text-sm font-medium hover:bg-[#b7b7b7] text-start"
                     :class="index % 2 == 0 ? 'bg-white' : 'bg-[#cecece]'"
                 >
+                    <span class="flex-[3] pl-3">
+                        {{ demandemesse.auteur }}
+                    </span>
                     <span class="flex-[3] pl-3">
                         {{ demandemesse.intention }}
                     </span>
@@ -101,7 +171,8 @@ const props = defineProps({
                     <span class="flex-[2] pl-3"> {{ demandemesse.type }} </span>
                     <div class="flex-[3] flex gap-3 text-white justify-start">
                         <button
-                            class="bg-blue-700 py-2 px-4 self-start rounded-lg"
+                            :disabled="demandemesse.paroissien_id"
+                            class="bg-blue-700 py-2 px-4 self-start rounded-lg disabled:bg-gray-500 disabled:cursor-not-allowed"
                             @click="prepareUpdate(demandemesse)"
                         >
                             Modifier
@@ -132,6 +203,12 @@ const props = defineProps({
                             ></div>
                         </button>
                     </div>
+                </li>
+                <li
+                    v-else
+                    class="bg-[#b7b7b7] rounded-b-lg py-3 flex justify-evenly items-center text-sm font-medium text-start"
+                >
+                    Aucune demande de messe
                 </li>
             </ul>
         </div>
@@ -170,7 +247,7 @@ const props = defineProps({
                 <TextInput
                     id="heure"
                     v-model="createForm.heure"
-                    type="text"
+                    type="time"
                     class="mt-1 block w-full"
                     required
                     autocomplete="heure"
@@ -183,26 +260,26 @@ const props = defineProps({
                     class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-md shadow-sm"
                     v-model="createForm.type"
                 >
-                    <option value="Simple ">Simple</option>
+                    <option value="Simple">Simple</option>
                     <option value="Neuvaine">Neuvaine</option>
                     <option value="Trentaine">Trentaine</option>
                 </select>
                 <InputError class="mt-2" :message="createForm.errors.type" />
                 <br />
                 <span v-if="createForm.type == 'Simple'" class="text-slate-400">
-                    4000 cfa</span
+                    4 000 cfa</span
                 >
                 <span
                     v-if="createForm.type == 'Neuvaine'"
                     class="text-slate-400"
                 >
-                    9000 cfa</span
+                    40 000 cfa</span
                 >
                 <span
                     v-if="createForm.type == 'Trentaine'"
                     class="text-slate-400"
                 >
-                    150000 cfa</span
+                    150 000 cfa</span
                 >
             </div>
 
@@ -253,7 +330,7 @@ const props = defineProps({
                 <TextInput
                     id="heure"
                     v-model="updateForm.heure"
-                    type="text"
+                    type="time"
                     class="mt-1 block w-full"
                     required
                     autocomplete="heure"
@@ -279,7 +356,7 @@ const props = defineProps({
                     v-if="updateForm.type == 'Neuvaine'"
                     class="text-slate-400"
                 >
-                    9000 cfa</span
+                    40000 cfa</span
                 >
                 <span
                     v-if="updateForm.type == 'Trentaine'"

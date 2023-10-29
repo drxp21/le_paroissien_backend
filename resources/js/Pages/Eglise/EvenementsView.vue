@@ -13,11 +13,13 @@ import { ref } from "vue";
 
 let showCreateModal = ref(false);
 let showUpdateModal = ref(false);
+let previewImageUrl = ref(false);
 
 let createForm = useForm({
     titre: "",
     date: "",
     description: "",
+    couverture: "",
     frais: "",
 });
 let updateForm = useForm({
@@ -25,18 +27,34 @@ let updateForm = useForm({
     titre: "",
     date: "",
     description: "",
+    couverture: "",
     frais: "",
 });
 let deleteForm = useForm({
     id: "",
 });
 
+const previewFile = (event) => {
+    let file = "";
+    event.target ? (file = event.target.files[0]) : (file = event);
+    console.log(file.name);
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+        createForm.couverture = reader.result.split(",")[1];
+        updateForm.couverture = reader.result.split(",")[1];
+        previewImageUrl.value = event.target.result;
+    };
+
+    reader.readAsDataURL(file);
+};
 const prepareUpdate = (evenement) => {
     updateForm.id = evenement.id;
     updateForm.titre = evenement.titre;
     updateForm.date = evenement.date;
     updateForm.description = evenement.description;
     updateForm.frais = evenement.frais;
+    updateForm.couverture = "";
     showUpdateModal.value = true;
 };
 const createevenement = () => {
@@ -61,16 +79,17 @@ const props = defineProps({
 </script>
 <template>
     <AppLayout>
-        <Head title="evenements" />
+        <Head title="évènements" class="capitalize" />
         <div class="px-20">
-            <div>Gestion de evenements</div>
+            <div>Gestion de évènements</div>
             <PrimaryButton @click="showCreateModal = true">
-                Créer un evenement
+                Créer un évènement
             </PrimaryButton>
             <ul class="mt-10">
                 <li
                     class="bg-[#cecece] rounded-t-lg py-3 flex justify-evenly items-center text-sm font-medium text-start"
                 >
+                    <span class="flex-[1.2]"> Couverture</span>
                     <span class="flex-[1.2]"> Intitulé </span>
                     <span class="flex-[1.2]"> Date </span>
                     <span class="flex-[1.2]"> Frais </span>
@@ -78,10 +97,17 @@ const props = defineProps({
                     <span class="flex-[3] text-center">Action </span>
                 </li>
                 <li
+                    v-if="evenements.length > 0"
                     v-for="(evenement, index) in evenements"
                     class="py-2.5 flex justify- items-center text-sm font-medium hover:bg-[#b7b7b7]"
                     :class="index % 2 == 0 ? 'bg-white' : 'bg-[#cecece]'"
                 >
+                    <span class="flex-[1.2]">
+                        <img
+                            class="h-10 rounded-xl object-cover"
+                            :src="evenement.couverture_path"
+                        />
+                    </span>
                     <span class="flex-[1.2]"> {{ evenement.titre }}</span>
                     <span class="flex-[1.2]">
                         {{ evenement.date.split("T")[0] }}</span
@@ -109,6 +135,12 @@ const props = defineProps({
                             Supprimer
                         </button>
                     </div>
+                </li>
+                <li
+                    v-else
+                    class="bg-[#b7b7b7] rounded-b-lg py-3 flex justify-evenly items-center text-sm font-medium text-start"
+                >
+                    Aucun évènement pour le moment
                 </li>
             </ul>
         </div>
@@ -166,6 +198,38 @@ const props = defineProps({
                     autocomplete="frais"
                 />
                 <InputError class="mt-2" :message="createForm.errors.frais" />
+            </div>
+            <div class="mt-4">
+                <InputLabel for="couverture" value="Image de couverture" />
+                <div class="mt-2">
+                    <label
+                        class="border font-medium text-sm flex items-center px-3 py-2.5 rounded-lg mt-0.5 shadow-lg"
+                        for="editCove"
+                        role="button"
+                    >
+                        Choisir une image de couverture
+                    </label>
+                </div>
+                <div class="flex items-center mt-2">
+                    <input
+                        type="file"
+                        id="editCove"
+                        class="hidden"
+                        @change="($event) => previewFile($event)"
+                        accept="image/*"
+                        name="couverture"
+                    />
+                    <img
+                        :src="previewImageUrl"
+                        v-if="previewImageUrl"
+                        class="rounded-md my-4"
+                        width="200"
+                    />
+                </div>
+                <InputError
+                    class="mt-2"
+                    :message="createForm.errors.couverture"
+                />
             </div>
 
             <div class="mt-4">
@@ -235,7 +299,38 @@ const props = defineProps({
                 />
                 <InputError class="mt-2" :message="updateForm.errors.frais" />
             </div>
-
+            <div class="mt-4">
+                <InputLabel for="couverture" value="Image de couverture" />
+                <div class="mt-2">
+                    <label
+                        class="border font-medium text-sm flex items-center px-3 py-2.5 rounded-lg mt-0.5 shadow-lg"
+                        for="editCove"
+                        role="button"
+                    >
+                        Changer l'image de couverture
+                    </label>
+                </div>
+                <div class="flex items-center mt-2">
+                    <input
+                        type="file"
+                        id="editCove"
+                        class="hidden"
+                        @change="($event) => previewFile($event)"
+                        accept="image/*"
+                        name="couverture"
+                    />
+                    <img
+                        :src="previewImageUrl"
+                        v-if="previewImageUrl"
+                        class="rounded-md my-4"
+                        width="200"
+                    />
+                </div>
+                <InputError
+                    class="mt-2"
+                    :message="createForm.errors.couverture"
+                />
+            </div>
             <div class="mt-4">
                 <PrimaryButton>
                     Modifier

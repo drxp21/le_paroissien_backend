@@ -71,66 +71,48 @@ const props = defineProps({
 </script>
 <template>
     <AppLayout>
-        <Head title="Disponi" />
+        <Head title="Dons" />
         <div class="px-20">
-            <div>Gestion des dons</div>
+            <div class="mt-10">
             <PrimaryButton @click="showCreateModal = true">
                 Renseigner un don physique
             </PrimaryButton>
+        </div>
             <ul class="mt-10">
                 <li
                     class="bg-[#cecece] rounded-t-lg py-3 flex justify-evenly items-center text-sm font-medium text-start"
                 >
+                    <span class="flex-[3] pl-3">Auteur </span>
                     <span class="flex-[3] pl-3">Type de don </span>
                     <span class="flex-[2] pl-3">Montant</span>
                     <span class="flex-[2] pl-3">Intention </span>
                     <span class="flex-[2] pl-3">Operateur</span>
-                    <span class="flex-[3] pl-3">Action</span>
                 </li>
                 <li
+                    v-if="dons.length>0"
                     v-for="(don, index) in dons"
                     class="py-2.5 flex justify- items-center text-sm font-medium hover:bg-[#b7b7b7] text-start"
                     :class="index % 2 == 0 ? 'bg-white' : 'bg-[#cecece]'"
                 >
+                <span class="flex-[3] pl-3">
+                        {{ don.auteur }}
+                    </span>
                     <span class="flex-[3] pl-3">
                         {{ donType(don.type) }}
                     </span>
                     <span class="flex-[2] pl-3 text-green-500"> {{ don.montant }} cfa </span>
                     <span class="flex-[2] pl-3"> {{ don.intention }}</span>
-                    <span class="flex-[2] pl-3">
-                        {{ don.moyen ? don.moyen : "---" }}
+                    <span class="flex-[2] pl-3 capitalize">
+                        {{ don.operateur ? don.operateur : "---" }}
                     </span>
-                    <div class="flex-[3] flex gap-3 text-white justify-start">
-                        <button
-                            class="bg-blue-700 py-2 px-4 self-start rounded-lg"
-                            @click="prepareUpdate(don)"
-                        >
-                            Modifier
-                        </button>
-                        <button
-                            @click="
-                                () => (
-                                    (deleteForm.id = don.id),
-                                    deleteForm.delete(
-                                        route('dons.destroy', don.id)
-                                    )
-                                )
-                            "
-                            :disabled="deleteForm.processing"
-                            class="bg-red-700 px-4 py-2 self-start rounded-lg flex gap-0.5 items-center transition-all"
-                        >
-                            Supprimer
-                            <div
-                                v-if="
-                                    deleteForm.processing &&
-                                    deleteForm.id == don.id
-                                "
-                                style="border-top-color: transparent"
-                                class="ml-2 w-3 h-3 border-2 border-white border-solid rounded-full animate-spin"
-                            ></div>
-                        </button>
-                    </div>
+
                 </li>
+                <li
+                        v-else
+                        class="bg-[#b7b7b7] rounded-b-lg py-3 flex justify-evenly items-center text-sm font-medium text-start"
+                    >
+                        Aucun don pour le moment
+                    </li>
             </ul>
         </div>
     </AppLayout>
@@ -176,6 +158,17 @@ const props = defineProps({
                     autocomplete="montant"
                 />
                 <InputError class="mt-2" :message="createForm.errors.montant" />
+            </div>
+            <div class="mt-4">
+                <InputLabel for="auteur" value="Nom du donneur (Laisser vite pour un don anonyme)" />
+                <TextInput
+                    id="auteur"
+                    v-model="createForm.auteur"
+                    type="text"
+                    class="mt-1 block w-full"
+                    autocomplete="auteur"
+                />
+                <InputError class="mt-2" :message="createForm.errors.auteur" />
             </div>
 
             <div class="mt-4">

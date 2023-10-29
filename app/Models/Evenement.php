@@ -14,5 +14,12 @@ class Evenement extends Model
         'description',
         'frais',
         'institution_id',
+        'couverture'
     ];
+    protected $appends = ['couverture_path'];
+
+    public function getCouverturePathAttribute()
+    {
+        return request()->getSchemeAndHttpHost() . '/storage/evenements/' . $this->couverture;
+    }
 }

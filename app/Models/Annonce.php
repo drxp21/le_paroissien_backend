@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Annonce extends Model
 {
     use HasFactory;
-    protected $fillable=['institution_id','contenu'];
+    protected $fillable=['institution_id','contenu','dateFin','actif'];
 }
