@@ -35,6 +35,9 @@ use Illuminate\Validation\ValidationException;
 |
 */
 
+
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -43,7 +46,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Ajoutez d'autres routes protégées ici
     Route::get('/{institution_id}/annonces', function ($institution_id) {
 
-        return Institution::findOrFail($institution_id)->annonces->where('dateFin',1);
+        return Institution::findOrFail($institution_id)->annonces->where('dateFin', 1);
     });
     Route::get('/{institution_id}/dispopretres', function ($institution_id) {
         return Institution::findOrFail($institution_id)->dispoPretres;
@@ -105,7 +108,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         $evenements = Institution::findOrFail($institution_id)->evenements->count();
         $annonces = Institution::findOrFail($institution_id)->annonces->count();
 
-        $demandes = DemandeMesse::where('paroissien_id',$paroissien_id)->where('institution_id',$institution_id)->where('date', '>=', Carbon::today())->count();
+        $demandes = DemandeMesse::where('paroissien_id', $paroissien_id)->where('institution_id', $institution_id)->where('date', '>=', Carbon::today())->count();
         return response()->json(compact('evenements', 'annonces', 'demandes'));
     });
 
@@ -121,7 +124,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/inscription-pelerinage', function (Request $request) {
         $ps = ParoissienPelerinage::where('institution_id', $request->institution_id)->where('numeroBeneficiare', $request->numeroBeneficiare)->first();
         if ($ps != null) {
-            return response(['error' => 'Ce numéro est déja inscrit à cette paroisse.'], 404);
+            return response(['error' => 'Ce numéro est déja inscrit au pélerinage de cette paroisse.'], 404);
         } else {
             ParoissienPelerinage::create($request->all());
             return response(['success' => true], 201);
@@ -164,16 +167,26 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
     Route::get('history/{id}', function ($id) {
+
+        $typeMap = [
+            'pretres' => "Don aux prêtres",
+            'paroisse' => "Soutenir une Paroisse",
+            'caritas' => "Caritas",
+            'denier' => "Denier de culte",
+            'dime' => "Dîme",
+            'dieu' => "Offrande à Dieu",
+            'autre' => "Autres",
+        ];
         $data = [];
         $paroissien = Paroissien::find($id);
         foreach ($paroissien->demandes as $demande) {
-            $dataToInsert['type'] = 'Demande de messe(' . $demande->type . ')';
+            $dataToInsert['type'] = 'Demande de messe(' . ' ' . $demande->type . ' ' . ')';
             $dataToInsert['date'] = $demande->created_at;
             $dataToInsert['montant'] = $demande->montant;
             array_push($data, $dataToInsert);
         };
         foreach ($paroissien->dons as $don) {
-            $dataToInsert['type'] = 'Don';
+            $dataToInsert['type'] = 'Don(' . ' ' . $typeMap[$don->type] . ' ' . ')';
             $dataToInsert['date'] = $don->created_at;
             $dataToInsert['montant'] = $don->montant;
             array_push($data, $dataToInsert);

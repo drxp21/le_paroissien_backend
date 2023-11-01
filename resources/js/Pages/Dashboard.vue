@@ -11,6 +11,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 <template>
     <AppLayout title="Vie d'église">
         <Head title="Tableau de bord" />
+       <div class="grid grid-cols-2 justify-center items-center">
         <div class="bg-white h-full flex flex-col gap-4 p-20">
             <Link :href="route('annonces.index')">
                 <PrimaryButton> Gestion des annonces </PrimaryButton>
@@ -22,6 +23,10 @@ import AppLayout from '@/Layouts/AppLayout.vue';
                 <PrimaryButton> Gestion des évènements </PrimaryButton>
             </Link>
         </div>
+        <div class="px-20">
+            <img :src="`/images/church-clipart.jpg`" />
+        </div>
+       </div>
 
     </AppLayout>
 </template>

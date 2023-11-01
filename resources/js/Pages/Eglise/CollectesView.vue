@@ -109,7 +109,7 @@ const createCsv = () => {
                         <th scope="col" class="px-6 py-4">Montant cible</th>
                         <th scope="col" class="px-6 py-4">Date de clôture</th>
                         <th scope="col" class="px-6 py-4">Participants</th>
-                        <th scope="col" class="px-6 py-4">Montant minimum</th>
+                        <th scope="col" class="px-6 py-4">Minimum de participation</th>
                         <th scope="col" class="px-6 py-4 capitalize">
                             échéance
                         </th>
@@ -142,9 +142,9 @@ const createCsv = () => {
                                     : "Mes paroissiens"
                             }}
                         </td>
-                        <td class="px-6 py-4">{{ collecte.minimum }}</td>
+                        <td class="px-6 py-4">{{ collecte.minimum }} cfa</td>
                         <td class="px-6 py-4">
-                            -{{ echeance(collecte.date_cloture) }}jours
+                            -{{ echeance(collecte.date_cloture) }} jours
                         </td>
                         <td class="px-6 py-4">{{ collecte.reunis }} cfa</td>
                         <td class="px-6 py-4">

@@ -13,6 +13,17 @@ const props = defineProps({
     pelerinages: [],
     demandes: [],
 });
+const addDots = (nStr) => {
+  nStr += "";
+  let x = nStr.split(".");
+  let x1 = x[0];
+  let x2 = x.length > 1 ? "." + x[1] : "";
+  var rgx = /(\d+)(\d{3})/;
+  while (rgx.test(x1)) {
+    x1 = x1.replace(rgx, "$1" + "." + "$2"); // changed comma to dot here
+  }
+  return x1 + x2;
+};
 </script>
 <template>
     <AppLayout>
@@ -55,7 +66,7 @@ const props = defineProps({
                         {{ collecte.type }}
                     </span>
                     <span class="flex-[3] pl-3 text-green-600">
-                        {{ collecte.montant }} cfa
+                        {{ addDots(collecte.montant) }} cfa
                     </span>
                     <span class="flex-[2] pl-3">
                         {{
@@ -101,7 +112,7 @@ const props = defineProps({
                         {{ demande.type }}
                     </span>
                     <span class="flex-[3] pl-3 text-green-600">
-                        {{ demande.montant }} cfa
+                        {{ addDots(demande.montant) }} cfa
                     </span>
                     <span class="flex-[2] pl-3">
                         {{
@@ -144,7 +155,7 @@ const props = defineProps({
                         {{ pelerinage.type }}
                     </span>
                     <span class="flex-[3] pl-3 text-green-600">
-                        {{ pelerinage.montant }} cfa
+                        {{ addDots(pelerinage.montant) }} cfa
                     </span>
                     <span class="flex-[2] pl-3">
                         {{
@@ -191,7 +202,7 @@ const props = defineProps({
                         {{ don.type }}
                     </span>
                     <span class="flex-[3] pl-3 text-green-600">
-                        {{ don.montant }} cfa
+                        {{ addDots(don.montant) }} cfa
                     </span>
                     <span class="flex-[2] pl-3">
                         {{
