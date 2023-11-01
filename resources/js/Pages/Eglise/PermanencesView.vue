@@ -30,7 +30,6 @@ for (let permanence of props.permanences_messe) {
             id: permanence.id,
             jour_id: permanence.jour_id,
             heureDebut: permanence.heureDebut,
-            heureFin: permanence.heureFin,
             institution_id: permanence.institution_id,
         })
     );
@@ -41,7 +40,6 @@ for (let permanence of props.permanences_confession) {
             id: permanence.id,
             jour_id: permanence.jour_id,
             heureDebut: permanence.heureDebut,
-            heureFin: permanence.heureFin,
             institution_id: permanence.institution_id,
         })
     );
@@ -52,7 +50,6 @@ for (let permanence of props.permanences_pretre) {
             id: permanence.id,
             jour_id: permanence.jour_id,
             heureDebut: permanence.heureDebut,
-            heureFin: permanence.heureFin,
             institution_id: permanence.institution_id,
         })
     );
@@ -109,9 +106,9 @@ console.log(permanences_messeForms.value);
                 ></div>
             </PrimaryButton>
         </div>
-        <div class="flex flex-col ">
+        <div class="flex flex-col">
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div class="py-2 inline-block min-w-full ">
+                <div class="py-2 inline-block min-w-full">
                     <div class="overflow-auto px-10">
                         <table class="min-w-full">
                             <thead class="bg-white border-b">
@@ -178,17 +175,10 @@ console.log(permanences_messeForms.value);
                                         v-for="permanence in permanences_messeForms"
                                         class="text-sm text-gray-900 font-light px-1 py-4 whitespace-nowrap"
                                     >
-                                        De
                                         <input
                                             type="time"
                                             class="p-0 text-xs rounded-md"
                                             v-model="permanence.heureDebut"
-                                        />
-                                        à
-                                        <input
-                                            type="time"
-                                            class="p-0 text-xs rounded-md"
-                                            v-model="permanence.heureFin"
                                         />
                                     </td>
                                 </tr>
@@ -202,18 +192,12 @@ console.log(permanences_messeForms.value);
                                         v-for="permanence in permanences_confessionForms"
                                         class="text-sm text-gray-900 font-light px-1 py-4 whitespace-nowrap"
                                     >
-                                        De
                                         <input
                                             type="time"
                                             class="p-0 text-xs rounded-md"
                                             v-model="permanence.heureDebut"
                                         />
-                                        à
-                                        <input
-                                            type="time"
-                                            class="p-0 text-xs rounded-md"
-                                            v-model="permanence.heureFin"
-                                        />
+
                                     </td>
                                 </tr>
                                 <tr class="bg-gray-100 border-b">
@@ -226,18 +210,12 @@ console.log(permanences_messeForms.value);
                                         v-for="permanence in permanences_pretreForms"
                                         class="text-sm text-gray-900 font-light px-1 py-4 whitespace-nowrap"
                                     >
-                                        De
                                         <input
                                             type="time"
                                             class="p-0 text-xs rounded-md"
                                             v-model="permanence.heureDebut"
                                         />
-                                        à
-                                        <input
-                                            type="time"
-                                            class="p-0 text-xs rounded-md"
-                                            v-model="permanence.heureFin"
-                                        />
+                                        
                                     </td>
                                 </tr>
                                 <tr class="bg-white border-b">

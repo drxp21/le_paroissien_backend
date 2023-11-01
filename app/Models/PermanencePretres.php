@@ -10,7 +10,6 @@ class PermanencePretres extends Model
     use HasFactory;
     protected $fillable=[
         'heureDebut',
-        'heureFin',
         'jour_id',
         'institution_id'
     ];

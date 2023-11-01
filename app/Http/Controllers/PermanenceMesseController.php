@@ -21,8 +21,6 @@ class PermanenceMesseController extends Controller
         $request->validate([
             'jour_id' => 'required|unique',
             'heureDebut' => 'required',
-            'heureFin' => 'required',
-            'heureFin' => 'required|gt:heureDebut',
         ]);
         $dataToInsert = $request->all();
         $dataToInsert['institution_id'] = HelperFuncs::getInstitutionId();
