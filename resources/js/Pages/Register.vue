@@ -109,6 +109,7 @@ let createForm = useForm({
                         :message="createForm.errors.doyenne"
                     />
                 </div>
+
                 <div class="mt-4">
                     <InputLabel for="denomination" value="Dénomination" />
                     <TextInput
