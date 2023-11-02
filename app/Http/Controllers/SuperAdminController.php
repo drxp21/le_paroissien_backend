@@ -62,6 +62,7 @@ class SuperAdminController extends Controller
             PermanenceSecretariat::create([
                 'jour_id' => $i,
                 'heureDebut' => '00:00',
+                'heureFin' => '00:01',
                 'institution_id' => $instit->id
 
             ]);
