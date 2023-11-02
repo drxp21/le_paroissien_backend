@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('permanence_pretres', function (Blueprint $table) {
             $table->id();
             $table->string('heureDebut');
-            $table->string('heureFin');
             $table->foreignId('jour_id')->constrained();
             $table->foreignId('institution_id')->constrained();
             $table->timestamps();

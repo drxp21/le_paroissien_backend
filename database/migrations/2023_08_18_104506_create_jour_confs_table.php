@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('jour');
 			$table->string('heureDebut');
-			$table->string('heureFin');
             $table->foreignId('institution_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
