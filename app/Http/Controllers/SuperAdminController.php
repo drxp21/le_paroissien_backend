@@ -47,7 +47,6 @@ class SuperAdminController extends Controller
             PermanenceMesse::create([
                 'jour_id' => $i,
                 'heureDebut' => '00:00',
-                'heureFin' => '00:00',
                 'institution_id' => $instit->id
             ]);
         }
@@ -55,7 +54,6 @@ class SuperAdminController extends Controller
             PermanencePretres::create([
                 'jour_id' => $i,
                 'heureDebut' => '00:00',
-                'heureFin' => '00:00',
                 'institution_id' => $instit->id
 
             ]);
@@ -64,7 +62,6 @@ class SuperAdminController extends Controller
             PermanenceSecretariat::create([
                 'jour_id' => $i,
                 'heureDebut' => '00:00',
-                'heureFin' => '00:00',
                 'institution_id' => $instit->id
 
             ]);
@@ -73,7 +70,6 @@ class SuperAdminController extends Controller
             PermanenceConfession::create([
                 'jour_id' => $i,
                 'heureDebut' => '00:00',
-                'heureFin' => '00:00',
                 'institution_id' => $instit->id
 
             ]);
