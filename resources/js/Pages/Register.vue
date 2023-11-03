@@ -33,7 +33,7 @@ let createForm = useForm({
 </script>
 <template>
     <Head title="Demande d'adhésion" />
-    
+
     <form
         class="pb-20"
         @submit.prevent="createForm.post(route('institutions.store'))"
@@ -44,7 +44,7 @@ let createForm = useForm({
             </div>
             <div class="w-full">
                 <div class="mt-4">
-                    <InputLabel for="statut" value="Statut" />
+                    <InputLabel for="statut" value="Statut*" />
                     <select
                         required
                         autofocus
@@ -73,10 +73,11 @@ let createForm = useForm({
                         createForm.statut == 'quasiparoisse'
                     "
                 >
-                    <InputLabel for="diocese" value="Archidiocèse/Diocèse " />
+                    <InputLabel for="diocese" value="Archidiocèse/Diocèse*" />
                     <select
                         class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-md shadow-sm"
                         v-model="createForm.diocese"
+                        required
                     >
                         <option value="Dakar">Dakar</option>
                         <option value="Kaolack">Kaolack</option>
@@ -101,11 +102,12 @@ let createForm = useForm({
                         createForm.statut == 'quasiparoisse'
                     "
                 >
-                    <InputLabel for="doyenne" value="Doyenné" />
+                    <InputLabel for="doyenne" value="Doyenné*" />
                     <TextInput
                         id="doyenne"
                         v-model="createForm.doyenne"
                         type="text"
+                        required
                         class="mt-1 block w-full"
                         autocomplete="doyenne"
                     />
@@ -116,7 +118,7 @@ let createForm = useForm({
                 </div>
 
                 <div class="mt-4">
-                    <InputLabel for="denomination" value="Dénomination" />
+                    <InputLabel for="denomination" value="Dénomination*" />
                     <TextInput
                         id="denomination"
                         v-model="createForm.denomination"
@@ -137,7 +139,6 @@ let createForm = useForm({
                         v-model="createForm.slogan"
                         type="text"
                         class="mt-1 block w-full"
-                        required
                         autocomplete="slogan"
                     />
                     <InputError
@@ -147,7 +148,7 @@ let createForm = useForm({
                 </div>
 
                 <div class="mt-4">
-                    <InputLabel for="adresse" value="Adresse Physique" />
+                    <InputLabel for="adresse" value="Adresse Physique*" />
                     <TextInput
                         id="adresse"
                         v-model="createForm.adresse"
@@ -168,7 +169,6 @@ let createForm = useForm({
                         v-model="createForm.telephonefixe"
                         type="text"
                         class="mt-1 block w-full"
-                        required
                         autocomplete="telephonefixe"
                     />
                     <InputError
@@ -185,7 +185,6 @@ let createForm = useForm({
                             v-model="createForm.emailinstitution"
                             type="email"
                             class="mt-1 block w-full"
-                            required
                             autocomplete="emailinstitution"
                         />
                         <InputError
@@ -197,7 +196,7 @@ let createForm = useForm({
             </div>
             <div class="w-full">
                 <div class="mt-4">
-                    <InputLabel for="nomresp" value="Nom du responsable" />
+                    <InputLabel for="nomresp" value="Nom du responsable*" />
                     <TextInput
                         id="nomresp"
                         v-model="createForm.nomresp"
@@ -214,7 +213,7 @@ let createForm = useForm({
                 <div class="mt-4">
                     <InputLabel
                         for="prenomresp"
-                        value="Prénom du responsable"
+                        value="Prénom du responsable*"
                     />
                     <TextInput
                         id="prenomresp"
@@ -230,11 +229,12 @@ let createForm = useForm({
                     />
                 </div>
                 <div class="mt-4">
-                    <InputLabel for="titreresp" value="Titre du responsable" />
+                    <InputLabel for="titreresp" value="Titre du responsable*" />
 
                     <select
                         class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-md shadow-sm"
                         v-model="createForm.titreresp"
+                        required
                     >
                         <option value="curee">Curée</option>
                         <option value="directeur">Directeur</option>
@@ -243,11 +243,13 @@ let createForm = useForm({
                 <div class="mt-4">
                     <InputLabel
                         for="telephonemobile"
-                        value="Téléphone mobile"
+                        value="Téléphone mobile*"
                     />
                     <MazPhoneNumberInput
                         defaultCountryCode="SN"
                         v-model="createForm.telephonemobile"
+
+                        required
                         :translations="{
                             countrySelector: {
                                 placeholder: 'Code pays',
@@ -275,7 +277,6 @@ let createForm = useForm({
                         v-model="createForm.emailresp"
                         type="email"
                         class="mt-1 block w-full"
-                        required
                         autocomplete="emailresp"
                     />
                     <InputError
@@ -291,7 +292,7 @@ let createForm = useForm({
             </div>
             <div class="w-full">
                 <div class="mt-4">
-                    <InputLabel for="nomdemandeur" value="Nom" />
+                    <InputLabel for="nomdemandeur" value="Nom*" />
                     <TextInput
                         id="nomdemandeur"
                         v-model="createForm.nomdemandeur"
@@ -306,7 +307,7 @@ let createForm = useForm({
                     />
                 </div>
                 <div class="mt-4">
-                    <InputLabel for="prenomdemandeur" value="Prénom(s)" />
+                    <InputLabel for="prenomdemandeur" value="Prénom(s)*" />
                     <TextInput
                         id="prenomdemandeur"
                         v-model="createForm.prenomdemandeur"
@@ -322,7 +323,7 @@ let createForm = useForm({
                 </div>
 
                 <div class="mt-4">
-                    <InputLabel for="fonctiondemandeur" value="Fonction" />
+                    <InputLabel for="fonctiondemandeur" value="Fonction*" />
                     <TextInput
                         id="fonctiondemandeur"
                         v-model="createForm.fonctiondemandeur"
@@ -354,7 +355,6 @@ let createForm = useForm({
                         v-model="createForm.telephonefixedemandeur"
                         type="text"
                         class="mt-1 block w-full"
-                        required
                         autocomplete="telephonefixedemandeur"
                     />
                     <InputError
@@ -364,8 +364,8 @@ let createForm = useForm({
                 </div>
                 <div class="mt-4">
                     <InputLabel
-                        for="telephonemobiledemandeur"
-                        value="Téléphone Mobile"
+                        for="telephonemobiledemandeur*"
+                        value="Téléphone Mobile*"
                     />
                     <TextInput
                         id="telephonemobiledemandeur"
@@ -381,7 +381,7 @@ let createForm = useForm({
                     />
                 </div>
                 <div class="mt-4">
-                    <InputLabel for="emaildemandeur" value="Adresse Mail" />
+                    <InputLabel for="emaildemandeur" value="Adresse Mail*" />
                     <TextInput
                         id="emaildemandeur"
                         v-model="createForm.emaildemandeur"
