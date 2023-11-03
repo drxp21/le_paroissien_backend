@@ -19,14 +19,14 @@ return new class extends Migration
             $table->string('diocese')->nullable();
             $table->string('doyenne')->nullable();
             $table->string('adresse');
-            $table->string('telephonefixe');
+            $table->string('telephonefixe')->nullable();
             $table->string('telephonemobile');
-            $table->string('emailinstitution');
+            $table->string('emailinstitution')->nullable();
             $table->string('slogan')->nullable();
             $table->string('nomresp');
             $table->string('prenomresp');
             $table->string('titreresp');
-            $table->string('emailresp');
+            $table->string('emailresp')->nullable();
             $table->string('emaildemandeur');
             $table->string('operateur')->nullable();
             $table->string('numcomptemarchand')->nullable();

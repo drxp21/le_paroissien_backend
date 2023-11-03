@@ -184,6 +184,7 @@ let createForm = useForm({
                             id="emailinstitution"
                             v-model="createForm.emailinstitution"
                             type="email"
+                            required
                             class="mt-1 block w-full"
                             autocomplete="emailinstitution"
                         />
