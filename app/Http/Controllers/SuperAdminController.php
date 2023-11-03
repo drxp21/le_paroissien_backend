@@ -32,7 +32,7 @@ class SuperAdminController extends Controller
         $user = User::create([
 
             'name' => $instit->denomination,
-            'email' => $instit->emailinstitution,
+            'email' => $instit->emaildemandeur,
             'password' => Hash::make($password),
         ]);
 
@@ -46,7 +46,7 @@ class SuperAdminController extends Controller
         for ($i = 1; $i < 8; $i++) {
             PermanenceMesse::create([
                 'jour_id' => $i,
-                'heureDebut' => '00:00',
+                'heureDebut' => '10:30',
                 'institution_id' => $instit->id
             ]);
         }
@@ -75,15 +75,15 @@ class SuperAdminController extends Controller
 
             ]);
         }
-        SendWelcomeEmailJob::dispatch($request->emailinstitution, $password);
+        SendWelcomeEmailJob::dispatch($request->emaildemandeur, $password);
         session()->flash('flash.banner', 'Email de validation envoyé avec succès');
     }
 
-    public function rejeter(Request $request){
-        SendRejectionEmailJob::dispatch($request->emaildemandeur, $request->raison,$request->denomination);
+    public function rejeter(Request $request)
+    {
+        SendRejectionEmailJob::dispatch($request->emaildemandeur, $request->raison, $request->denomination);
         Institution::destroy($request->id);
         session()->flash('flash.banner', 'Email de rejet envoyé avec succès');
-
     }
     public function admins()
     {

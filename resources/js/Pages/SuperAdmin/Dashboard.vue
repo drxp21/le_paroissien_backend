@@ -183,7 +183,7 @@ onMounted(() => {
                                         <td
                                             class="px-2 py-4 capitalize text-center"
                                         >
-                                            {{ demandeur.telephonefixe }}
+                                            {{ demandeur.telephonefixe ?? '-----' }}
                                         </td>
                                         <td
                                             class="px-2 py-4 capitalize text-center"

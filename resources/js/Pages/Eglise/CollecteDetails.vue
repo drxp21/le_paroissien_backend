@@ -212,6 +212,7 @@ onMounted(() => {
                     >
                         <span class="flex-[1.2] pl-3"> Auteur </span>
                         <span class="flex-[1.2] pl-3"> Montant </span>
+                        <span class="flex-[1.2] pl-3"> Intention </span>
                         <span class="flex-[1.2] pl-3"> Donné le: </span>
                     </li>
                     <li
@@ -226,6 +227,9 @@ onMounted(() => {
                         <span class="flex-[1.2] pl-3 text-green-700">
                             {{ addDots(inscription.montant) }} cfa
                         </span>
+                        <span class="flex-[1.2] pl-3">
+                            {{ inscription.intention ?? '----' }}</span
+                        >
                         <span class="flex-[1.2] pl-3">
                             {{ inscription.created_at.split("T")[0] }}</span
                         >

@@ -16,7 +16,8 @@ return new class extends Migration
             $table->timestamps();
             $table->string('montant');
             $table->string('auteur')->default('Anonyme');
-            $table->string('operateur');
+            $table->string('operateur')->nullable();
+            $table->text('intention');
             $table->foreignId('collecte_id')->constrained();
             $table->foreignId('paroissien_id')->nullable()->constrained();
 

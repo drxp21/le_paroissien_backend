@@ -25,6 +25,7 @@ class DonController extends Controller
             'intention' => 'required',
         ]);
         $dataToInsert = $request->all();
+        $dataToInsert['auteur'] = $request->auteur ?? 'Anonyme';
         $dataToInsert['institution_id'] = HelperFuncs::getInstitutionId();
         Don::create($dataToInsert);
     }

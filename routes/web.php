@@ -25,7 +25,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -52,7 +52,7 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-        'edj'=>$verset
+        'edj' => $verset
     ]);
 })->name('home');
 
@@ -82,15 +82,27 @@ Route::get('/permanences', function () {
     return Inertia::render('Eglise/PermanencesView', compact('permanences_messe', 'permanences_confession', 'permanences_pretre', 'permanences_secretariat'));
 })->name('permanences');
 
-Route::post('/valider-demande', [SuperAdminController::class,'valider'] )->name('valider');
-Route::post('/rejeter-demande', [SuperAdminController::class,'rejeter'] )->name('rejeter');
+Route::delete('permanenceMesseDestroy', function (Request $request) {
+    PermanenceMesse::find($request->id)->delete();
+})->name('permanenceMesseDestroy');
+Route::post('permanenceMesseAdd', function (Request $request) {
+    PermanenceMesse::create([
+        'jour_id' => $request->jour_id,
+        'heureDebut' => '00:00',
+        'institution_id' => $request->institution_id
+    ]);
+})->name('permanenceMesseAdd');
+
+
+Route::post('/valider-demande', [SuperAdminController::class, 'valider'])->name('valider');
+Route::post('/rejeter-demande', [SuperAdminController::class, 'rejeter'])->name('rejeter');
 Route::resource('/institutions', InstitutionController::class);
-Route::get('/institutions-historique', [InstitutionController::class,'historique'])->name('historique');
-Route::get('/admins', [SuperAdminController::class,'admins'])->name('admins');
-Route::post('/admins', [SuperAdminController::class,'create_admin'])->name('create_admin');
-Route::delete('/admins/{id}', [SuperAdminController::class,'delete_admin'])->name('delete_admin');
-Route::post('/collectes/dons/physique',[CollecteController::class,'collectePhysique'] )->name('collectePhysique');
-Route::post('/pelerinage/inscription/physique',[PelerinageController::class,'pelerinagePhysique'] )->name('pelerinagePhysique');
+Route::get('/institutions-historique', [InstitutionController::class, 'historique'])->name('historique');
+Route::get('/admins', [SuperAdminController::class, 'admins'])->name('admins');
+Route::post('/admins', [SuperAdminController::class, 'create_admin'])->name('create_admin');
+Route::delete('/admins/{id}', [SuperAdminController::class, 'delete_admin'])->name('delete_admin');
+Route::post('/collectes/dons/physique', [CollecteController::class, 'collectePhysique'])->name('collectePhysique');
+Route::post('/pelerinage/inscription/physique', [PelerinageController::class, 'pelerinagePhysique'])->name('pelerinagePhysique');
 
 Route::resource('/annonces', AnnonceController::class);
 Route::resource('/permanencesmesse', PermanenceMesseController::class);

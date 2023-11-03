@@ -46,7 +46,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Ajoutez d'autres routes protégées ici
     Route::get('/{institution_id}/annonces', function ($institution_id) {
 
-        return Institution::findOrFail($institution_id)->annonces->where('dateFin', 1);
+        return Institution::findOrFail($institution_id)->annonces;
+    });
+    Route::get('/{institution_id}/heures-messes', function ($institution_id) {
+
+        return  PermanenceMesse::where('institution_id', $institution_id)->orderBy('jour_id', 'asc')->get();
     });
     Route::get('/{institution_id}/dispopretres', function ($institution_id) {
         return Institution::findOrFail($institution_id)->dispoPretres;
@@ -88,6 +92,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             'montant' => $request->montant,
             'operateur' => $request->operateur,
             'auteur' => $request->auteur,
+            'intention' => $request->intention,
             'collecte_id' => $request->collecte_id,
             'paroissien_id' => $request->paroissien_id,
         ]);

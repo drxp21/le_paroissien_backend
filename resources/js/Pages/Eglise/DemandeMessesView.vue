@@ -177,31 +177,7 @@ onMounted(() => {
                         >
                             Modifier
                         </button>
-                        <button
-                            @click="
-                                () => (
-                                    (deleteForm.id = demandemesse.id),
-                                    deleteForm.delete(
-                                        route(
-                                            'demandemesses.destroy',
-                                            demandemesse.id
-                                        )
-                                    )
-                                )
-                            "
-                            :disabled="deleteForm.processing"
-                            class="bg-red-700 px-4 py-2 self-start rounded-lg flex gap-0.5 items-center transition-all"
-                        >
-                            Supprimer
-                            <div
-                                v-if="
-                                    deleteForm.processing &&
-                                    deleteForm.id == demandemesse.id
-                                "
-                                style="border-top-color: transparent"
-                                class="ml-2 w-3 h-3 border-2 border-white border-solid rounded-full animate-spin"
-                            ></div>
-                        </button>
+                       
                     </div>
                 </li>
                 <li

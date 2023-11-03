@@ -30,12 +30,12 @@ class InstitutionController extends Controller
     public function store(Request $request)
     {
         $r = $request->validate([
-            'emailinstitution' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'emaildemandeur' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
         ], [
-            'emailinstitution.unique' => 'Cet email d\'institution est déjà utilisé.',
+            'emaildemandeur.unique' => 'Cet email d\'institution est déjà utilisé.',
         ]);
         Institution::create($request->all());
-        NewAdhesionJob::dispatch($request->prenomdemandeur, $request->nomdemandeur, $request->telephonefixedemandeur, $request->emaildemandeur, $request->denomination, $request->statut);
+        NewAdhesionJob::dispatch($request->prenomdemandeur, $request->nomdemandeur, $request->telephonemobiledemandeur, $request->emaildemandeur, $request->denomination, $request->statut);
         session()->flash('flash.banner', 'Votre demande  d\'adhésion a été reçue. Vous recevrez un email une fois votre demande traitée');
         return redirect()->route('home');
     }

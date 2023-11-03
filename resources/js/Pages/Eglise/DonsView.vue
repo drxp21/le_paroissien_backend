@@ -17,6 +17,7 @@ let showUpdateModal = ref(false);
 let createForm = useForm({
     type: "",
     montant: "",
+    auteur:"",
     intention: "",
 });
 let updateForm = useForm({

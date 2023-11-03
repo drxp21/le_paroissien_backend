@@ -29,7 +29,11 @@ class PermanenceMesseController extends Controller
 
     public function update($id, Request $request)
     {
-        PermanenceMesse::findOrFail($id)->update($request->all());
+
+        $dataToInsert["jour_id"] = $request->jour_id;
+        $dataToInsert["heureDebut"] = $request->heureDebut;
+        $dataToInsert["institution_id"] = $request->institution_id;
+        PermanenceMesse::updateOrCreate(["id" => $request->id],$dataToInsert);
     }
 
     public function destroy($id)

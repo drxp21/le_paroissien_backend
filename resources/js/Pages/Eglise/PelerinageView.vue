@@ -260,7 +260,7 @@ onMounted(() => {
                         >
                             Modifier les informations
                         </button>
-                            <!-- <button
+                        <!-- <button
                                 class="px-3 py-2 bg-red-700 text-white rounded-md shadow-sm text-sm"
                                 @click="showDelModal = true"
                             >
@@ -316,7 +316,8 @@ onMounted(() => {
                     >
                         <span class="flex-[1.2] pl-3"> Auteur </span>
                         <span class="flex-[1.2] pl-3"> Opérateur </span>
-                        <span class="flex-[1.2] pl-3"> Bénéficiaire </span>
+                        <span class="flex-[1.2] pl-3"> Nom énéficiaire </span>
+                        <span class="flex-[1.2] pl-3"> Numero Bénéficiaire </span>
                         <span class="flex-[1.2] pl-3">
                             Moyen de déplacement
                         </span>
@@ -336,8 +337,11 @@ onMounted(() => {
                             }}</span
                         >
                         <span class="flex-[1.2] pl-3">
-                            {{ inscription.operateur ?? '---' }}
+                            {{ inscription.operateur ?? "---" }}
                         </span>
+                        <span class="flex-[1.2] pl-3">
+                            {{ inscription.nomBeneficiare }}</span
+                        >
                         <span class="flex-[1.2] pl-3">
                             {{ inscription.numeroBeneficiare }}</span
                         >
@@ -851,7 +855,7 @@ onMounted(() => {
                     />
                 </div>
                 <div class="mt-4">
-                    <InputLabel value="Numéro du bénéficiaire" />
+                    <InputLabel value="Numéro du bénéficiaire (Ex: +221 7x xxx xx xx)" />
                     <TextInput
                         id="numero"
                         v-model="createInscriptionForm.numeroBeneficiare"

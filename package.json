@@ -24,7 +24,8 @@
         "dayjs": "^1.11.10",
         "flowbite": "^1.8.1",
         "flowbite-vue": "^0.0.17-next.0",
-        "maz-ui": "^3.19.1",
+        "libphonenumber-js": "^1.10.49",
+        "maz-ui": "^3.19.3",
         "vue-chartjs": "^5.2.0"
     }
 }

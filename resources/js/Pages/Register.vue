@@ -3,8 +3,12 @@ import InputLabel from "../Components/InputLabel.vue";
 import InputError from "../Components/InputError.vue";
 import TextInput from "../Components/TextInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import MazPhoneNumberInput from "maz-ui/components/MazPhoneNumberInput";
+
+
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import Banner from "@/Components/Banner.vue";
+
 let createForm = useForm({
     statut: "",
     denomination: "",
@@ -29,6 +33,7 @@ let createForm = useForm({
 </script>
 <template>
     <Head title="Demande d'adhésion" />
+    
     <form
         class="pb-20"
         @submit.prevent="createForm.post(route('institutions.store'))"
@@ -240,14 +245,21 @@ let createForm = useForm({
                         for="telephonemobile"
                         value="Téléphone mobile"
                     />
-                    <TextInput
-                        id="telephonemobile"
+                    <MazPhoneNumberInput
+                        defaultCountryCode="SN"
                         v-model="createForm.telephonemobile"
-                        type="text"
-                        class="mt-1 block w-full"
-                        required
-                        autocomplete="telephonemobile"
+                        :translations="{
+                            countrySelector: {
+                                placeholder: 'Code pays',
+                                error: 'Choisir le pays',
+                            },
+                            phoneInput: {
+                                placeholder: 'Numéro de téléphone',
+                                example: 'Exemple:',
+                            },
+                        }"
                     />
+
                     <InputError
                         class="mt-2"
                         :message="createForm.errors.telephonemobile"

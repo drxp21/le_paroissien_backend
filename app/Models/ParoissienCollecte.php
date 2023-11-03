@@ -12,6 +12,7 @@ class ParoissienCollecte extends Model
         'montant',
         'auteur',
         'operateur',
+        'intention',
         'collecte_id',
         'paroissien_id',
     ];

@@ -179,4 +179,10 @@ class Institution extends Model
     {
         return $this->hasMany(PermanenceSecretariat::class);
     }
+        /**
+     * Get all of the permanence_messes for the PermanenceMesse
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+   
 }
