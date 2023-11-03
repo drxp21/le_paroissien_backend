@@ -164,13 +164,24 @@ let createForm = useForm({
                 </div>
                 <div class="mt-4">
                     <InputLabel for="telephonefixe" value="Téléphone Fixe" />
-                    <TextInput
-                        id="telephonefixe"
+                  
+                    <MazPhoneNumberInput
+                        defaultCountryCode="SN"
                         v-model="createForm.telephonefixe"
-                        type="text"
-                        class="mt-1 block w-full"
-                        autocomplete="telephonefixe"
+
+                        required
+                        :translations="{
+                            countrySelector: {
+                                placeholder: 'Code pays',
+                                error: 'Choisir le pays',
+                            },
+                            phoneInput: {
+                                placeholder: 'Numéro de téléphone',
+                                example: 'Exemple:',
+                            },
+                        }"
                     />
+
                     <InputError
                         class="mt-2"
                         :message="createForm.errors.telephonefixe"
@@ -351,13 +362,23 @@ let createForm = useForm({
                         for="telephonefixedemandeur"
                         value="Téléphone Fixe"
                     />
-                    <TextInput
-                        id="telephonefixedemandeur"
+                    <MazPhoneNumberInput
+                        defaultCountryCode="SN"
                         v-model="createForm.telephonefixedemandeur"
-                        type="text"
-                        class="mt-1 block w-full"
-                        autocomplete="telephonefixedemandeur"
+
+                        required
+                        :translations="{
+                            countrySelector: {
+                                placeholder: 'Code pays',
+                                error: 'Choisir le pays',
+                            },
+                            phoneInput: {
+                                placeholder: 'Numéro de téléphone',
+                                example: 'Exemple:',
+                            },
+                        }"
                     />
+
                     <InputError
                         class="mt-2"
                         :message="createForm.errors.telephonefixedemandeur"
@@ -368,14 +389,24 @@ let createForm = useForm({
                         for="telephonemobiledemandeur*"
                         value="Téléphone Mobile*"
                     />
-                    <TextInput
-                        id="telephonemobiledemandeur"
+                    <MazPhoneNumberInput
+                        defaultCountryCode="SN"
                         v-model="createForm.telephonemobiledemandeur"
-                        type="text"
-                        class="mt-1 block w-full"
+
                         required
-                        autocomplete="telephonemobiledemandeur"
+                        :translations="{
+                            countrySelector: {
+                                placeholder: 'Code pays',
+                                error: 'Choisir le pays',
+                            },
+                            phoneInput: {
+                                placeholder: 'Numéro de téléphone',
+                                example: 'Exemple:',
+                            },
+                        }"
                     />
+
+
                     <InputError
                         class="mt-2"
                         :message="createForm.errors.telephonemobiledemandeur"
