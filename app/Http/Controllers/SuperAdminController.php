@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Jobs\SendRejectionEmailJob;
 use App\Jobs\SendWelcomeEmailJob;
+use App\Mail\RejectionEmail;
+use App\Mail\WelcomeUserMail;
 use App\Models\Institution;
 use App\Models\PermanenceConfession;
 use App\Models\PermanenceMesse;
@@ -13,6 +15,7 @@ use App\Models\User;
 use Dotenv\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class SuperAdminController extends Controller
@@ -75,13 +78,13 @@ class SuperAdminController extends Controller
 
             ]);
         }
-        SendWelcomeEmailJob::dispatch($request->emaildemandeur, $password);
+        Mail::to($request->emaildemandeur)->send(new WelcomeUserMail($request->emaildemandeur, $password));
         session()->flash('flash.banner', 'Email de validation envoyé avec succès');
     }
 
     public function rejeter(Request $request)
     {
-        SendRejectionEmailJob::dispatch($request->emaildemandeur, $request->raison, $request->denomination);
+        Mail::to($request->emaildemandeur)->send(new RejectionEmail($request->emaildemandeur, $request->raison));
         Institution::destroy($request->id);
         session()->flash('flash.banner', 'Email de rejet envoyé avec succès');
     }

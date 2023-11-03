@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\NewAdhesionJob;
 use App\Jobs\SendWelcomeEmailJob;
+use App\Mail\NewAdhesionMail;
 use App\Mail\WelcomeUserMail;
 use App\Models\Institution;
 use App\Models\Pelerinage;
@@ -35,7 +36,9 @@ class InstitutionController extends Controller
             'emaildemandeur.unique' => 'Cet email d\'institution est déjà utilisé.',
         ]);
         Institution::create($request->all());
-        NewAdhesionJob::dispatch($request->prenomdemandeur, $request->nomdemandeur, $request->telephonemobiledemandeur, $request->emaildemandeur, $request->denomination, $request->statut);
+        foreach (User::where('role', 'superadmin')->get() as $user) {
+            Mail::to($user->email)->send(new NewAdhesionMail($request->prenomdemandeur,$request->nomdemandeur, $request->telephonemobiledemandeur, $request->emaildemandeur, $request->denomination, $request->statut));
+        }
         session()->flash('flash.banner', 'Votre demande  d\'adhésion a été reçue. Vous recevrez un email une fois votre demande traitée');
         return redirect()->route('home');
     }
