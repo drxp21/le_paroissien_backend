@@ -3,6 +3,6 @@ Votre demande d'adhésion pour {{ $institution }} a été rejetée pour a raison
 <br>
 {{ $raison }}
 
-Cordialement <br />
+Cordialement,
 {{ config('app.name') }}
 </x-mail::message>
