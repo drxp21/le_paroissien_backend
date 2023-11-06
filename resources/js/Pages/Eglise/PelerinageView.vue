@@ -204,11 +204,16 @@ onMounted(() => {
         <Head title="Pélerinage" />
 
         <div
-            class="px-10 mt-10"
+            class="px-20 mt-10 flex justify-center items-center"
             v-if="!pelerinage"
             @click="showCreateModal = true"
         >
-            <PrimaryButton> Créer l'évènement du pélerinage </PrimaryButton>
+            <PrimaryButton class="self-center">
+                Créer l'évènement du pélerinage
+            </PrimaryButton>
+            <div class="px-20 w-1/2">
+                <img :src="`/images/pelerinageimage.jpg`" class="rounded-xl shadow-md" />
+            </div>
         </div>
         <div v-else class="px-20 py-10">
             <div class="flex justify-between gap-10 mt-10">
@@ -317,7 +322,9 @@ onMounted(() => {
                         <span class="flex-[1.2] pl-3"> Auteur </span>
                         <span class="flex-[1.2] pl-3"> Opérateur </span>
                         <span class="flex-[1.2] pl-3"> Nom énéficiaire </span>
-                        <span class="flex-[1.2] pl-3"> Numero Bénéficiaire </span>
+                        <span class="flex-[1.2] pl-3">
+                            Numero Bénéficiaire
+                        </span>
                         <span class="flex-[1.2] pl-3">
                             Moyen de déplacement
                         </span>
@@ -514,7 +521,7 @@ onMounted(() => {
                         <div class="mt-4">
                             <InputLabel
                                 for="dateLimCar"
-                                value="Date limite d'inscript(Bus)"
+                                value="Date limite d'inscription (Bus)"
                             />
                             <TextInput
                                 id="dateLimCar"
@@ -855,7 +862,9 @@ onMounted(() => {
                     />
                 </div>
                 <div class="mt-4">
-                    <InputLabel value="Numéro du bénéficiaire (Ex: +221 7x xxx xx xx)" />
+                    <InputLabel
+                        value="Numéro du bénéficiaire (Ex: +221 7x xxx xx xx)"
+                    />
                     <TextInput
                         id="numero"
                         v-model="createInscriptionForm.numeroBeneficiare"

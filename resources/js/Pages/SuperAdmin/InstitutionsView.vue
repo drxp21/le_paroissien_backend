@@ -70,10 +70,10 @@ const props = defineProps({
                                 {{ instit.adresse }}
                             </td>
                             <td class="px-2 py-4 capitalize text-center">
-                                {{ instit.telephonefixe }}
+                                {{ instit.telephonefixe ?? '---' }}
                             </td>
                             <td class="px-2 py-4 capitalize text-center">
-                                {{ instit.telephonemobile }}
+                                {{ instit.telephonemobile ?? '---' }}
                             </td>
                             <td class="px-2 py-4 capitalize text-center">
                                 {{ instit.prenomresp }}
@@ -83,13 +83,15 @@ const props = defineProps({
                                 {{ instit.titreresp }}
                             </td>
                             <td class="px-2 py-4 capitalize text-center">
-                                {{ instit.emailresp }}
+                                {{ instit.emailresp ?? '---'}}
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div v-else>Aucune institution validée pour le moment</div>
+            <div v-else class="p-5 text-slate-600 text-lg font-xl">
+                Aucune institution pour le moment
+            </div>
         </div>
     </AppLayout>
 </template>

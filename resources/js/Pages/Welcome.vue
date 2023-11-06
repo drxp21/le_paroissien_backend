@@ -192,7 +192,7 @@ onMounted(() => {});
             </div>
         </div>
         <div
-            class="border border-1 border-dark flex flex-col align-items-center col-span-2 md:col-span-1 mt-5"
+            class="flex flex-col align-items-center col-span-2 md:col-span-1 mt-5"
         >
             <label
                 class="w-full text-center block font-medium text-sm text-gray-700"
@@ -269,7 +269,7 @@ onMounted(() => {});
             <h4>Nous contacter ?</h4>
             <ul class="w-1/2">
                 <li class="flex justify-between list-inline-item">
-                    <span>Téléphone :</span> <span>(221) 33 *** ** **</span>
+                    <span>Téléphone :</span> <span>(+221) 33 *** ** **</span>
                 </li>
                 <li class="flex justify-between">
                     <span>Adresse mail :</span>

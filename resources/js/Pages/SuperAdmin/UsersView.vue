@@ -41,7 +41,7 @@ const submit = () => {
     <AppLayout>
         <Head title="Utilisateurs" />
 
-        <div class="px-20">
+        <div class="px-20 mt-10">
             <PrimaryButton @click="showCreateModal = true">
                 Ajouter un super-admin
             </PrimaryButton>

@@ -164,12 +164,12 @@ let createForm = useForm({
                 </div>
                 <div class="mt-4">
                     <InputLabel for="telephonefixe" value="Téléphone Fixe" />
-                  
+
                     <MazPhoneNumberInput
                         defaultCountryCode="SN"
                         v-model="createForm.telephonefixe"
 
-                        required
+                        
                         :translations="{
                             countrySelector: {
                                 placeholder: 'Code pays',
@@ -195,7 +195,7 @@ let createForm = useForm({
                             id="emailinstitution"
                             v-model="createForm.emailinstitution"
                             type="email"
-                            required
+
                             class="mt-1 block w-full"
                             autocomplete="emailinstitution"
                         />
@@ -207,7 +207,7 @@ let createForm = useForm({
                 </div>
             </div>
             <div class="w-full">
-                <div class="mt-4">
+                <div>
                     <InputLabel for="nomresp" value="Nom du responsable*" />
                     <TextInput
                         id="nomresp"
@@ -366,7 +366,7 @@ let createForm = useForm({
                         defaultCountryCode="SN"
                         v-model="createForm.telephonefixedemandeur"
 
-                        required
+
                         :translations="{
                             countrySelector: {
                                 placeholder: 'Code pays',

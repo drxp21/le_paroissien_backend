@@ -32,15 +32,21 @@ class PelerinageController extends Controller
             [
                 'edition' => 'required',
                 'theme' => 'required',
-                'dateLimCar' => 'required|date',
-                'dateLimMarche' => 'required|date',
+                'dateLimCar' => 'required|date|before:dateDebut',
+                'dateLimMarche' => 'required|date|before:dateDebut',
                 'fraisCar' => 'required|numeric',
                 'fraisMarche' => 'required|numeric',
                 'couverture' => 'required|string',
                 'description' => 'required',
                 'dateDebut'=>'required|after:today',
                 'dateFin'=>'required|after:dateDebut'
-            ],
+            ],[
+                'dateDebut.after'=>'La date de début doit être postérieure à aujourd\'hui.',
+                'dateFin.after'=>'La date de fin doit être postérieure à la date de début.',
+                'dateLimCar.after'=>'La date de limite d\'inscription doit être antérieure à la date de début.',
+                'dateLimMarche.after'=>'La date de limite d\'inscription doit être antérieure à la date de début.'
+
+            ]
 
         );
         $dataToInsert = $request->all();
