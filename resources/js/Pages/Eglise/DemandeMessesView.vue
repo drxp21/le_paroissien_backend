@@ -2,7 +2,7 @@
 import { Head } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, router } from "@inertiajs/vue3";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import TextInput from "@/Components/TextInput.vue";
@@ -14,11 +14,13 @@ import { ref, onMounted } from "vue";
 
 let showCreateModal = ref(false);
 let showUpdateModal = ref(false);
-let filterStart = ref("1970-01-01");
-let filterEnd = ref("2070-01-01");
+let filterStart = ref("2023-01-01");
+let filterEnd = ref("2024-01-01");
 let csvData = ref([]);
+let heuresTmp = ref([]);
 let demandesTmp = ref([]);
 let createForm = useForm({
+    auteur: "",
     intention: "",
     date: "",
     heure: "",
@@ -27,6 +29,7 @@ let createForm = useForm({
 let updateForm = useForm({
     id: "",
     intention: "",
+    auteur: "",
     date: "",
     heure: "",
     type: "",
@@ -38,22 +41,29 @@ let deleteForm = useForm({
 const prepareUpdate = (demandemesse) => {
     updateForm.id = demandemesse.id;
     updateForm.intention = demandemesse.intention;
+    updateForm.auteur =
+        demandemesse.auteur == "Anonyme" ? "" : demandemesse.auteur;
     updateForm.date = demandemesse.date;
     updateForm.heure = demandemesse.heure;
     updateForm.type = demandemesse.type;
     showUpdateModal.value = true;
+    getHeureMesse();
 };
 const createdemandemesse = () => {
     createForm.post(route("demandemesses.store"), {
         onSuccess: () => {
-            createForm.reset();
+            router.visit(route("demandemesses.index"));
             showCreateModal.value = false;
+            createForm.reset();
         },
     });
 };
 const updatedemandemesse = () => {
+    updateForm.auteur =
+        updateForm.auteur == "" ? "Anonyme" : updateForm.auteur;
     updateForm.put(route("demandemesses.update", updateForm), {
         onSuccess: () => {
+            router.visit(route("demandemesses.index"));
             updateForm.reset();
             showUpdateModal.value = false;
         },
@@ -69,6 +79,7 @@ const filterDateRange = () => {
 };
 const props = defineProps({
     demandemesses: "",
+    heures: "",
 });
 const createCsv = () => {
     for (let demande of demandesTmp.value) {
@@ -87,6 +98,14 @@ const createCsv = () => {
         "demandeMesses" + new Date().toLocaleDateString()
     );
 };
+const getHeureMesse = (type) => {
+    let jour_id =
+        type == "create"
+            ? new Date(createForm.date).getDay()
+            : new Date(updateForm.date).getDay();
+    jour_id == 0 ? (jour_id = 7) : null;
+    heuresTmp.value = props.heures.filter((s) => s.jour_id == jour_id);
+};
 onMounted(() => {
     filterDateRange();
 });
@@ -94,7 +113,7 @@ onMounted(() => {
 <template>
     <AppLayout>
         <Head title="Demandes de messe" />
-        <div class="px-20">
+        <div class="px-20 pt-10">
             <PrimaryButton @click="showCreateModal = true">
                 Renseigner une demande physique
             </PrimaryButton>
@@ -124,8 +143,8 @@ onMounted(() => {
                     @click="
                         () => {
                             (demandesTmp = demandemesses),
-                                (filterStart = '1970-01-01'),
-                                (filterEnd = '2070-01-01');
+                                (filterStart = '2023-01-01'),
+                                (filterEnd = '2024-01-01');
                         }
                     "
                 >
@@ -177,7 +196,6 @@ onMounted(() => {
                         >
                             Modifier
                         </button>
-                       
                     </div>
                 </li>
                 <li
@@ -194,6 +212,20 @@ onMounted(() => {
             <span class="text-2xl font-medium"
                 >Renseigner une demande physique</span
             >
+            <div class="mt-4">
+                <InputLabel
+                    for="auteur"
+                    value="Nom du demandeur (Laisser vide pour un don anonyme)"
+                />
+                <TextInput
+                    id="auteur"
+                    v-model="createForm.auteur"
+                    type="text"
+                    class="mt-1 block w-full"
+                    autocomplete="auteur"
+                />
+                <InputError class="mt-2" :message="createForm.errors.auteur" />
+            </div>
             <div class="mt-4">
                 <InputLabel for="intention" value="Intention de messe" />
                 <textarea
@@ -212,6 +244,7 @@ onMounted(() => {
                     id="date"
                     v-model="createForm.date"
                     type="date"
+                    @change="getHeureMesse('create')"
                     class="mt-1 block w-full"
                     required
                     autocomplete="date"
@@ -220,14 +253,15 @@ onMounted(() => {
             </div>
             <div class="mt-4">
                 <InputLabel for="heure" value="Heure de la messe" />
-                <TextInput
-                    id="heure"
+                <select
+                    class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-md shadow-sm"
                     v-model="createForm.heure"
-                    type="time"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="heure"
-                />
+                >
+                    <option v-for="h in heuresTmp" :value="h.heureDebut">
+                        {{ h.heureDebut }}
+                    </option>
+                </select>
+
                 <InputError class="mt-2" :message="createForm.errors.heure" />
             </div>
             <div class="mt-4">
@@ -261,7 +295,7 @@ onMounted(() => {
 
             <div class="mt-4">
                 <PrimaryButton>
-                    Renseigner
+                    Valider
                     <div
                         v-if="createForm.processing"
                         style="border-top-color: transparent"
@@ -275,8 +309,22 @@ onMounted(() => {
     <Modal :show="showUpdateModal" @close="showUpdateModal = false">
         <form class="p-10" @submit.prevent="updatedemandemesse">
             <span class="text-2xl font-medium"
-                >Renseigner une demande physique</span
+                >Modifier une demande physique</span
             >
+            <div class="mt-4">
+                <InputLabel
+                    for="auteur"
+                    value="Nom du demandeur (Laisser vide pour un don anonyme)"
+                />
+                <TextInput
+                    id="auteur"
+                    v-model="updateForm.auteur"
+                    type="text"
+                    class="mt-1 block w-full"
+                    autocomplete="auteur"
+                />
+                <InputError class="mt-2" :message="createForm.errors.auteur" />
+            </div>
             <div class="mt-4">
                 <InputLabel for="intention" value="Intention de messe" />
                 <textarea
@@ -295,6 +343,7 @@ onMounted(() => {
                     id="date"
                     v-model="updateForm.date"
                     type="date"
+                    @change="getHeureMesse('update')"
                     class="mt-1 block w-full"
                     required
                     autocomplete="date"
@@ -303,14 +352,15 @@ onMounted(() => {
             </div>
             <div class="mt-4">
                 <InputLabel for="heure" value="Heure de la messe" />
-                <TextInput
-                    id="heure"
+                <select
+                    class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-md shadow-sm"
                     v-model="updateForm.heure"
-                    type="time"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="heure"
-                />
+                >
+                    <option v-for="h in heuresTmp" :value="h.heureDebut">
+                        {{ h.heureDebut }}
+                    </option>
+                </select>
+
                 <InputError class="mt-2" :message="updateForm.errors.heure" />
             </div>
             <div class="mt-4">

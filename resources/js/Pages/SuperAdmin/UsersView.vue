@@ -164,7 +164,7 @@ const submit = () => {
                         :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing"
                     >
-                        Créer
+                        Valider
                     </PrimaryButton>
                 </div>
             </form>

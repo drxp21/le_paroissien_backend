@@ -13,12 +13,13 @@ class DemandeMesseController extends Controller
     {
 
         $demandemesses = Institution::find(HelperFuncs::getInstitutionId())->demandemesses;
-        return Inertia::render('Eglise/DemandeMessesView', compact('demandemesses'));
+        $heures = Institution::find(HelperFuncs::getInstitutionId())->permanences_messe;
+
+        return Inertia::render('Eglise/DemandeMessesView', compact('demandemesses','heures'));
     }
 
     public function store(Request $request)
     {
-
         $request->validate([
             'intention' => 'required',
             'date' => 'required|after_or_equal:today',
@@ -31,6 +32,7 @@ class DemandeMesseController extends Controller
         $request->type == 'Simple' ? $dataToInsert['montant'] = 4000 : null;
         $request->type == 'Neuvaine' ? $dataToInsert['montant'] = 9000 : null;
         $request->type == 'Trentaine' ? $dataToInsert['montant'] = 150000 : null;
+        $dataToInsert['auteur'] = $request->auteur ?? 'Anonyme';
         $dataToInsert['institution_id'] = HelperFuncs::getInstitutionId();
         DemandeMesse::create($dataToInsert);
     }

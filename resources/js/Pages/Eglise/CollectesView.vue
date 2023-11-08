@@ -313,7 +313,7 @@ const createCsv = () => {
             </div>
             <div class="mt-4">
                 <PrimaryButton>
-                    Créer
+                    Valider
                     <div
                         v-if="createForm.processing"
                         style="border-top-color: transparent"

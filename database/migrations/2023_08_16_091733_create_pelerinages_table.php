@@ -22,7 +22,7 @@ return new class extends Migration
 			$table->string('fraisCar');
 			$table->string('fraisMarche');
 			$table->string('couverture');
-			$table->text('description');
+			$table->text('description')->nullable();
             $table->foreignId('institution_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

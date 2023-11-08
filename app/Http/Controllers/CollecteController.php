@@ -6,6 +6,7 @@ use App\Models\Collecte;
 use App\Models\Institution;
 use App\Models\ParoissienCollecte;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -30,7 +31,6 @@ class CollecteController extends Controller
     }
     public function store(Request $request)
     {
-
         $request->validate([
             'titre' => 'required',
             'description' => 'required',
@@ -38,18 +38,19 @@ class CollecteController extends Controller
             'date_debut' => 'required',
             'date_cloture' => 'required',
             'objectif' => 'required|numeric',
-            'couverture' => 'required|string',
             'toutlemonde' => 'required',
         ]);
 
         $dataToInsert = $request->all();
-        if ($request->exists('couverture')) {
+        if ($request->couverture) {
             // convertir la photo en base64
             $photoFile = HelperFuncs::getFileFromBase64($request->couverture);
             $extension = $photoFile->guessExtension();
             $filename = 'collecte' . time() . '.' . $extension;
-            $photoFile->storeAs('public/collectes', $filename);
+            $photoFile->storeAs('public', $filename);
             $dataToInsert['couverture'] = $filename;
+        } else {
+            $dataToInsert['couverture'] = Auth::user()->profile_photo_path;
         }
         $dataToInsert['toutlemonde'] = $request->toutlemonde == 0 ? false : true;
         $dataToInsert['institution_id'] = HelperFuncs::getInstitutionId();
@@ -71,15 +72,15 @@ class CollecteController extends Controller
         $dataToInsert = $request->all();
         $dataToInsert['couverture'] = $collecte->couverture;
 
-        if (Storage::exists('public/collectes/' . $collecte->couverture) && $request->couverture != null) {
-            Storage::delete('public/collectes/' . $collecte->couverture);
+        if (Storage::exists('public/' . $collecte->couverture) && $request->couverture != null) {
+            Storage::delete('public/' . $collecte->couverture);
         }
         if ($request->couverture != null) {
             // convertir la photo en base64
             $photoFile = HelperFuncs::getFileFromBase64($request->couverture);
             $extension = $photoFile->guessExtension();
             $filename = 'collecte' . time() . '.' . $extension;
-            $photoFile->storeAs('public/collectes', $filename);
+            $photoFile->storeAs('public', $filename);
             $dataToInsert['couverture'] = $filename;
         }
         $dataToInsert['toutlemonde'] = $request->toutlemonde == false ? 0 : 1;
@@ -93,10 +94,11 @@ class CollecteController extends Controller
     public function collectePhysique(Request $request)
     {
         $request->validate([
-            'montant'=>'required|numeric'
+            'montant' => 'required|numeric'
         ]);
         ParoissienCollecte::create([
             'montant' => $request->montant,
+            'intention' => $request->intention,
             'auteur' => $request->auteur ?? 'Anonyme',
             'collecte_id' => $request->collecte_id,
             'paroissien_id' => $request->paroissien_id,

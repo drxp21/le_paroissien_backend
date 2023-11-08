@@ -314,5 +314,4 @@ onMounted(() => {
             </div>
         </form>
     </Modal>
-    <Banner />
 </template>

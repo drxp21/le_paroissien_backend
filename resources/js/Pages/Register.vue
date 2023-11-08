@@ -169,7 +169,7 @@ let createForm = useForm({
                         defaultCountryCode="SN"
                         v-model="createForm.telephonefixe"
 
-                        
+
                         :translations="{
                             countrySelector: {
                                 placeholder: 'Code pays',
@@ -429,7 +429,7 @@ let createForm = useForm({
                 </div>
             </div>
 
-            <PrimaryButton type="submit"> Demander une adhésion </PrimaryButton>
+            <PrimaryButton type="submit" :disabled="createForm.processing" class="disabled:cursor-not-allowed"> Demander une adhésion </PrimaryButton>
         </div>
     </form>
     <Banner />

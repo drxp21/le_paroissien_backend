@@ -42,18 +42,26 @@ class EvenementController extends Controller
     {
         $evenement = Evenement::find($id);
         $dataToInsert = $request->all();
-        if (Storage::exists('public/evenements/' . $evenement->couverture)) {
-            Storage::delete('public/evenements/' . $evenement->couverture);
-        }
-        if ($request->exists('couverture')) {
-            // convertir la photo en base64
+        $filename = null;
+        if ($request->couverture != null) {
+            if (Storage::exists('public/evenements/' . $evenement->couverture)) {
+                Storage::delete('public/evenements/' . $evenement->couverture);
+            }
             $photoFile = HelperFuncs::getFileFromBase64($request->couverture);
             $extension = $photoFile->guessExtension();
             $filename = 'evenement' . time() . '.' . $extension;
             $photoFile->storeAs('public/evenements', $filename);
             $dataToInsert['couverture'] = $filename;
         }
-        Evenement::findOrFail($id)->update($dataToInsert);
+
+
+        Evenement::findOrFail($id)->update([
+            "titre" => $request->titre,
+            "date" => $request->date,
+            "description" => $request->description,
+            "couverture" => $filename ?? $evenement->couverture,
+            "frais" => $request->frais,
+        ]);
     }
 
     public function destroy($id)

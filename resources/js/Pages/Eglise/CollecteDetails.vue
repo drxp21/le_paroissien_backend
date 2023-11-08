@@ -29,6 +29,7 @@ const updateForm = useForm({
 const createDonForm = useForm({
     montant: "",
     auteur: "",
+    intention: "",
     collecte_id: props.collecte.id,
 });
 let years = ref([]);
@@ -95,7 +96,7 @@ const createDon = () => {
 };
 onMounted(() => {
     Chart.register(...registerables);
-    if (props.collecte) {
+    if (props.collecte.participations.length > 0) {
         new Chart("collecteChart", {
             type: "doughnut",
             data: {
@@ -103,8 +104,8 @@ onMounted(() => {
                 datasets: [
                     {
                         data: [
-                            props.collecte.reunis,
-                            props.collecte.objectif - props.collecte.reunis,
+                            props.collecte?.reunis,
+                            props.collecte?.objectif - props.collecte?.reunis,
                         ],
                         backgroundColor: ["#507db8", "#CCCCCC"],
                     },
@@ -178,7 +179,7 @@ onMounted(() => {
             </div>
             <div class="grid grid-cols-2 mt-10">
                 <canvas
-                    v-if="collecte.participations.length > 0"
+                    v-if="collecte.participations.length > 0 && collecte.id"
                     id="collecteChart"
                     class="col-span-1"
                 ></canvas>
@@ -221,14 +222,14 @@ onMounted(() => {
                         class="py-2.5 flex justify- items-center text-sm font-medium hover:bg-[#b7b7b7]"
                         :class="index % 2 == 0 ? 'bg-white' : 'bg-[#cecece]'"
                     >
-                    <span class="flex-[1.2] pl-3">
+                        <span class="flex-[1.2] pl-3">
                             {{ inscription.auteur }}
                         </span>
                         <span class="flex-[1.2] pl-3 text-green-700">
                             {{ addDots(inscription.montant) }} cfa
                         </span>
                         <span class="flex-[1.2] pl-3">
-                            {{ inscription.intention ?? '----' }}</span
+                            {{ inscription.intention ?? "---" }}</span
                         >
                         <span class="flex-[1.2] pl-3">
                             {{ inscription.created_at.split("T")[0] }}</span
@@ -294,6 +295,18 @@ onMounted(() => {
                     <InputError
                         class="mt-2"
                         :message="createDonForm.errors.auteur"
+                    />
+                </div>
+                <div class="mt-4">
+                    <InputLabel for="intention" value="Intention" />
+                    <textarea
+                        v-model="createDonForm.intention"
+                        class="border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-md shadow-sm w-full"
+                        rows="3"
+                    ></textarea>
+                    <InputError
+                        class="mt-2"
+                        :message="createDonForm.errors.intention"
                     />
                 </div>
                 <div class="mt-4">

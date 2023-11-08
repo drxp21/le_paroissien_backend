@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('date_debut');
             $table->date('date_cloture');
             $table->string('objectif');
-            $table->string('couverture');
+            $table->string('couverture')->nullable();
             $table->boolean('toutlemonde')->default(false);
             $table->foreignId('institution_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

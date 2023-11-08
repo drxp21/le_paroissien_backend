@@ -45,7 +45,7 @@ const closeModal = () => {
 <template>
     <ActionSection>
         <template #title>
-            Browser Sessions
+            Session sur les navigateurs
         </template>
 
         <template #description>

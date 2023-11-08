@@ -499,7 +499,7 @@ const logout = () => {
                                 :href="route('profile.show')"
                                 :active="route().current('profile.show')"
                             >
-                                Profile
+                                Profil
                             </ResponsiveNavLink>
 
                             <ResponsiveNavLink
@@ -513,7 +513,7 @@ const logout = () => {
                             <!-- Authentication -->
                             <form method="POST" @submit.prevent="logout">
                                 <ResponsiveNavLink as="button">
-                                    Log Out
+                                    Se déconnecter
                                 </ResponsiveNavLink>
                             </form>
 

@@ -2,8 +2,7 @@
 import { Head } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { useForm, usePage } from "@inertiajs/vue3";
-import { router } from "@inertiajs/vue3";
+import { useForm, usePage, router } from "@inertiajs/vue3";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import TextInput from "@/Components/TextInput.vue";
@@ -50,7 +49,8 @@ const updatePermanences = async () => {
         );
     }
     Promise.all(promises).then(() => {
-        window.location.reload();
+        router.visit(route("permanences"));
+        router.visit(route("permanences-check"));
     });
 };
 const deleteHeureMesse = (id) => {
@@ -236,7 +236,10 @@ onMounted(() => {
                                                     )
                                                 "
                                             >
-                                                <PlusIcon :size="12" />
+                                                <PlusIcon
+                                                    :size="12"
+                                                    :disabled="processing"
+                                                />
                                             </button>
                                         </div>
                                     </td>

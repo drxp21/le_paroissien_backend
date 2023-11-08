@@ -32,8 +32,10 @@ class InstitutionController extends Controller
     {
         $r = $request->validate([
             'emaildemandeur' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'denomination' => ['required', 'string', 'max:255', 'unique:institutions,denomination'],
         ], [
             'emaildemandeur.unique' => 'Cet email d\'institution est déjà utilisé.',
+            'denomination.unique' => 'Cette institution est déjà inscrite.',
         ]);
         Institution::create($request->all());
         foreach (User::where('role', 'superadmin')->get() as $user) {

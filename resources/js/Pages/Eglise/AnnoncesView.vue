@@ -57,7 +57,6 @@ const props = defineProps({
     <AppLayout>
         <Head title="Annonces" />
         <div class="px-20">
-            <div>Gestion de annonces</div>
             <PrimaryButton @click="showCreateModal = true">
                 Créer une annonce
             </PrimaryButton>
@@ -143,7 +142,7 @@ const props = defineProps({
 
             <div class="mt-4">
                 <PrimaryButton>
-                    Créer
+                    Valider
                     <div
                         v-if="createForm.processing"
                         style="border-top-color: transparent"

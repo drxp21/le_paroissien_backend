@@ -54,7 +54,7 @@ const prepareUpdate = (evenement) => {
     updateForm.date = evenement.date;
     updateForm.description = evenement.description;
     updateForm.frais = evenement.frais;
-    updateForm.couverture = "";
+    updateForm.couverture = null;
     showUpdateModal.value = true;
 };
 const createevenement = () => {
@@ -234,7 +234,7 @@ const props = defineProps({
 
             <div class="mt-4">
                 <PrimaryButton>
-                    Créer
+                    Valider
                     <div
                         v-if="createForm.processing"
                         style="border-top-color: transparent"

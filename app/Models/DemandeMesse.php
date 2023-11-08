@@ -16,12 +16,12 @@ class DemandeMesse extends Model
         'date',
         'operateur',
         'heure',
-        'anonyme',
+        'auteur',
         'type',
         'montant',
     ];
 
-    protected $appends = ['auteur', 'institution_name'];
+    protected $appends = ['institution_name'];
 
     /**
      * Get the paroissien that owns the DemandeMesse
@@ -42,15 +42,6 @@ class DemandeMesse extends Model
         return $this->belongsTo(Institution::class);
     }
 
-
-    public function getAuteurAttribute()
-    {
-        if ($this->paroissien != null && !$this->anonyme) {
-            return $this->paroissien->nom;
-        }
-
-        return 'Anonyme';
-    }
     public function getInstitutionNameAttribute()
     {
         return $this->institution->denomination;

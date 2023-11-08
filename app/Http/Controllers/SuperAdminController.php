@@ -46,13 +46,29 @@ class SuperAdminController extends Controller
 
         ]);
 
-        for ($i = 1; $i < 8; $i++) {
+        for ($i = 1; $i < 7; $i++) {
             PermanenceMesse::create([
                 'jour_id' => $i,
-                'heureDebut' => '10:30',
+                'heureDebut' => '06:30',
                 'institution_id' => $instit->id
             ]);
         }
+        PermanenceMesse::create([
+            'jour_id' => '7',
+            'heureDebut' => '07:30',
+            'institution_id' => $instit->id
+        ]);
+        PermanenceMesse::create([
+            'jour_id' => '7',
+            'heureDebut' => '10:30',
+            'institution_id' => $instit->id
+        ]);
+        PermanenceMesse::create([
+            'jour_id' => '7',
+            'heureDebut' => '18:30',
+            'institution_id' => $instit->id
+        ]);
+
         for ($i = 1; $i < 8; $i++) {
             PermanencePretres::create([
                 'jour_id' => $i,

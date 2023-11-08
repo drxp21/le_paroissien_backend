@@ -16,10 +16,10 @@ return new class extends Migration
 			$table->text('intention');
 			$table->date('date');
 			$table->string('montant');
+			$table->string('auteur');
 			$table->string('operateur')->nullable();
             $table->string('heure');
             $table->string('type');
-            $table->boolean('anonyme')->default(false);
             $table->foreignId('institution_id')->constrained();
 			$table->foreignId('paroissien_id')->nullable()->constrained();
             $table->timestamps();

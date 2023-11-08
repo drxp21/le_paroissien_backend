@@ -58,29 +58,52 @@ Route::get('/', function () {
 
 Route::middleware([
     'auth:sanctum',
+    'hasChangedPassword',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
         $demandeurs = Institution::where('verified', 0)->get();
-        // session()->flash('flash.banner', 'Yay it works!');
+
         return Auth::user()->role == 'superadmin' ?  Inertia::render('SuperAdmin/Dashboard', compact('demandeurs')) : Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::resource('/annonces', AnnonceController::class);
+    Route::resource('/permanencesmesse', PermanenceMesseController::class);
+    Route::resource('/permanencesconfession', PermanenceConfessionController::class);
+    Route::resource('/permanencespretres', PermanencePretresController::class);
+    Route::resource('/permanencessecretariat', PermanenceSecretariatController::class);
+    Route::resource('/pelerinage', PelerinageController::class);
+    Route::resource('/demandemesses', DemandeMesseController::class);
+    Route::resource('/dispopretres', DispoPretreController::class);
+    Route::resource('/evenements', EvenementController::class);
+    Route::resource('/dons', DonController::class);
+    Route::resource('/collectes', CollecteController::class);
+    Route::post('/collectes/dons/physique', [CollecteController::class, 'collectePhysique'])->name('collectePhysique');
+
+    Route::get('/institutions-historique', [InstitutionController::class, 'historique'])->name('historique');
+    Route::get('/permanences', function () {
+        $institution_id = HelperFuncs::getInstitutionId();
+        $permanences_messe = PermanenceMesse::where('institution_id', $institution_id)->orderBy('jour_id', 'asc')->get();
+        $permanences_confession = PermanenceConfession::where('institution_id', $institution_id)->orderBy('jour_id', 'asc')->get();
+        $permanences_pretre = PermanencePretres::where('institution_id', $institution_id)->orderBy('jour_id', 'asc')->get();
+        $permanences_secretariat = PermanenceSecretariat::where('institution_id', $institution_id)->orderBy('jour_id', 'asc')->get();
+
+        return Inertia::render('Eglise/PermanencesView', compact('permanences_messe', 'permanences_confession', 'permanences_pretre', 'permanences_secretariat'));
+    })->name('permanences');
+
+    Route::get('/permanences-check', function () {
+        session()->flash('flash.banner', 'Permanences mises à jour avec succès');
+    })->name('permanences-check');
 });
 
 Route::get('/register', function () {
     return Inertia::render('Register');
 })->name('register');
+Route::resource('/institutions', InstitutionController::class);
 
-Route::get('/permanences', function () {
-    $institution_id = HelperFuncs::getInstitutionId();
-    $permanences_messe = PermanenceMesse::where('institution_id', $institution_id)->orderBy('jour_id', 'asc')->get();
-    $permanences_confession = PermanenceConfession::where('institution_id', $institution_id)->orderBy('jour_id', 'asc')->get();
-    $permanences_pretre = PermanencePretres::where('institution_id', $institution_id)->orderBy('jour_id', 'asc')->get();
-    $permanences_secretariat = PermanenceSecretariat::where('institution_id', $institution_id)->orderBy('jour_id', 'asc')->get();
 
-    return Inertia::render('Eglise/PermanencesView', compact('permanences_messe', 'permanences_confession', 'permanences_pretre', 'permanences_secretariat'));
-})->name('permanences');
+
 
 Route::delete('permanenceMesseDestroy', function (Request $request) {
     PermanenceMesse::find($request->id)->delete();
@@ -96,22 +119,8 @@ Route::post('permanenceMesseAdd', function (Request $request) {
 
 Route::post('/valider-demande', [SuperAdminController::class, 'valider'])->name('valider');
 Route::post('/rejeter-demande', [SuperAdminController::class, 'rejeter'])->name('rejeter');
-Route::resource('/institutions', InstitutionController::class);
-Route::get('/institutions-historique', [InstitutionController::class, 'historique'])->name('historique');
+
 Route::get('/admins', [SuperAdminController::class, 'admins'])->name('admins');
 Route::post('/admins', [SuperAdminController::class, 'create_admin'])->name('create_admin');
 Route::delete('/admins/{id}', [SuperAdminController::class, 'delete_admin'])->name('delete_admin');
-Route::post('/collectes/dons/physique', [CollecteController::class, 'collectePhysique'])->name('collectePhysique');
 Route::post('/pelerinage/inscription/physique', [PelerinageController::class, 'pelerinagePhysique'])->name('pelerinagePhysique');
-
-Route::resource('/annonces', AnnonceController::class);
-Route::resource('/permanencesmesse', PermanenceMesseController::class);
-Route::resource('/permanencesconfession', PermanenceConfessionController::class);
-Route::resource('/permanencespretres', PermanencePretresController::class);
-Route::resource('/permanencessecretariat', PermanenceSecretariatController::class);
-Route::resource('/pelerinage', PelerinageController::class);
-Route::resource('/demandemesses', DemandeMesseController::class);
-Route::resource('/dispopretres', DispoPretreController::class);
-Route::resource('/evenements', EvenementController::class);
-Route::resource('/dons', DonController::class);
-Route::resource('/collectes', CollecteController::class);

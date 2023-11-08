@@ -37,7 +37,6 @@ class PelerinageController extends Controller
                 'fraisCar' => 'required|numeric',
                 'fraisMarche' => 'required|numeric',
                 'couverture' => 'required|string',
-                'description' => 'required',
                 'dateDebut'=>'required|after:today',
                 'dateFin'=>'required|after:dateDebut'
             ],[

@@ -17,7 +17,7 @@ return new class extends Migration
 			$table->date('date');
 			$table->text('description');
 			$table->string('frais');
-			$table->string('couverture');
+			$table->string('couverture')->nullable();
             $table->foreignId('institution_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

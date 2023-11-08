@@ -252,8 +252,8 @@ onMounted(() => {
                             pelerinage.theme
                         }}</span></span
                     >
-                    <span class="mt-1 text-lg">Déscription: </span>
-                    <p>
+                    <span class="mt-1 text-lg" v-if="pelerinage.description">Déscription: </span>
+                    <p v-if="pelerinage.description">
                         {{ pelerinage.description }}
                     </p>
                 </div>
@@ -412,8 +412,18 @@ onMounted(() => {
             max-width="3xl"
         >
             <form class="p-10" @submit.prevent="createpelerinage">
-                <div class="text-2xl font-medium">
-                    Créer l'évènement du pélerinage
+                <div class="text-2xl font-medium flex justify-between">
+                    Créer l'évènement du pélerinage de Popoguine
+
+                    <PrimaryButton>
+                        Valider
+                        <div
+                            v-if="createForm.processing"
+                            style="border-top-color: transparent"
+                            class="ml-2 w-3 h-3 border-2 border-white border-solid rounded-full animate-spin"
+                        ></div>
+                        <PlusIcon v-else :size="20" />
+                    </PrimaryButton>
                 </div>
                 <div class="flex gap-5 w-full">
                     <div class="w-full">
@@ -609,17 +619,7 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
-                <div class="mt-4">
-                    <PrimaryButton>
-                        Créer
-                        <div
-                            v-if="createForm.processing"
-                            style="border-top-color: transparent"
-                            class="ml-2 w-3 h-3 border-2 border-white border-solid rounded-full animate-spin"
-                        ></div>
-                        <PlusIcon v-else :size="20" />
-                    </PrimaryButton>
-                </div>
+
             </form>
         </Modal>
         <Modal

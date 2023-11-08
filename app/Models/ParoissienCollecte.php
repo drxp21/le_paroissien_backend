@@ -13,6 +13,7 @@ class ParoissienCollecte extends Model
         'auteur',
         'operateur',
         'intention',
+        'intention',
         'collecte_id',
         'paroissien_id',
     ];

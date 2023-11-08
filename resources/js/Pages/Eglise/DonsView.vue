@@ -172,7 +172,7 @@ const props = defineProps({
                 <InputError class="mt-2" :message="createForm.errors.montant" />
             </div>
             <div class="mt-4">
-                <InputLabel for="auteur" value="Nom du donneur (Laisser vite pour un don anonyme)" />
+                <InputLabel for="auteur" value="Nom du donneur (Laisser vide pour un don anonyme)" />
                 <TextInput
                     id="auteur"
                     v-model="createForm.auteur"
