@@ -36,7 +36,7 @@ class SuperAdminController extends Controller
 
             'name' => $instit->denomination,
             'email' => $instit->emaildemandeur,
-            'password' => Hash::make('leparoissien'),
+            'password' => Hash::make($password),
         ]);
 
 
