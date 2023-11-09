@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,6 +99,8 @@ Route::middleware([
 });
 
 Route::get('/register', function () {
+
+    Auth::logout();
     return Inertia::render('Register');
 })->name('register');
 Route::resource('/institutions', InstitutionController::class);

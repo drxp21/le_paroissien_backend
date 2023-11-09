@@ -28,7 +28,7 @@ class SuperAdminController extends Controller
     public function valider(Request $request)
     {
 
-        $password = HelperFuncs::randomPassword();
+        $password = 'leparoissien';
         $instit = Institution::find($request->id);
 
 
@@ -36,7 +36,7 @@ class SuperAdminController extends Controller
 
             'name' => $instit->denomination,
             'email' => $instit->emaildemandeur,
-            'password' => Hash::make($password),
+            'password' => Hash::make('leparoissien'),
         ]);
 
 
