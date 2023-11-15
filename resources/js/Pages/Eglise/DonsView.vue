@@ -98,7 +98,7 @@ const props = defineProps({
                     <span class="flex-[3] pl-3">Type de don </span>
                     <span class="flex-[2] pl-3">Montant</span>
                     <span class="flex-[2] pl-3">Intention </span>
-                    <span class="flex-[2] pl-3">Operateur</span>
+                    <span class="flex-[2] pl-3"> Mode de paiement</span>
                 </li>
                 <li
                     v-if="dons.length>0"
@@ -115,7 +115,7 @@ const props = defineProps({
                     <span class="flex-[2] pl-3 text-green-500"> {{ addDots(don.montant) }} cfa </span>
                     <span class="flex-[2] pl-3"> {{ don.intention }}</span>
                     <span class="flex-[2] pl-3 capitalize">
-                        {{ don.operateur ? don.operateur : "---" }}
+                        {{ don.operateur ? don.operateur : 'Espèces' }}
                     </span>
 
                 </li>
@@ -130,7 +130,7 @@ const props = defineProps({
     </AppLayout>
     <Modal :show="showCreateModal" @close="showCreateModal = false">
         <form class="p-10" @submit.prevent="createdon">
-            <span class="text-2xl font-medium">Renseigner un don physique</span>
+            <span class="text-2xl font-medium">Nouveau Soutien/Don</span>
             <div class="mt-4">
                 <InputLabel for="type" value="Type de don" />
                 <select

@@ -32,8 +32,17 @@ const confForm = useForm({
     prenomresp: "",
     titreresp: "",
     emailresp: "",
-    raison:""
+    raison: "",
 });
+const options = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZoneName: "short",
+};
 onMounted(() => {
     for (let i in props.demandeurs) {
         visibles.value.push(false);
@@ -136,11 +145,12 @@ onMounted(() => {
                                         >
                                             Titre du responsable
                                         </th>
+
                                         <th
                                             scope="col"
                                             class="px-2 py-4 capitalize"
                                         >
-                                            Email du responsable
+                                            Demande faite le
                                         </th>
 
                                         <th
@@ -183,7 +193,10 @@ onMounted(() => {
                                         <td
                                             class="px-2 py-4 capitalize text-center"
                                         >
-                                            {{ demandeur.telephonefixe ?? '-----' }}
+                                            {{
+                                                demandeur.telephonefixe ??
+                                                "-----"
+                                            }}
                                         </td>
                                         <td
                                             class="px-2 py-4 capitalize text-center"
@@ -199,7 +212,12 @@ onMounted(() => {
                                         <td
                                             class="px-2 py-4 capitalize text-center"
                                         >
-                                            {{ demandeur.emailresp }}
+                                            {{
+                                                new Intl.DateTimeFormat(
+                                                    "fr-FR",
+                                                    options
+                                                ).format(demandeur.created_at)
+                                            }}
                                         </td>
                                         <td
                                             class="px-2 py-4 capitalize text-center flex gap-2"

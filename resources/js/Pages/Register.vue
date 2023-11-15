@@ -5,7 +5,6 @@ import TextInput from "../Components/TextInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import MazPhoneNumberInput from "maz-ui/components/MazPhoneNumberInput";
 
-
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import Banner from "@/Components/Banner.vue";
 
@@ -55,9 +54,6 @@ let createForm = useForm({
                         <option value="paroisse">Paroisse</option>
                         <option value="quasiparoisse">Quasi-Paroisse</option>
                         <option value="chapelle">Chapelle</option>
-                        <option value="caritative">Organisme Caritatif</option>
-                        <option value="pouponniere">Pouponnière</option>
-                        <option value="groupepriere">Groupe de Prière</option>
                     </select>
                     <InputError
                         class="mt-2"
@@ -66,12 +62,7 @@ let createForm = useForm({
                 </div>
                 <div
                     class="mt-4"
-                    v-if="
-                        createForm.statut == 'cathedrale' ||
-                        createForm.statut == 'paroisse' ||
-                        createForm.statut == 'chapelle' ||
-                        createForm.statut == 'quasiparoisse'
-                    "
+
                 >
                     <InputLabel for="diocese" value="Archidiocèse/Diocèse*" />
                     <select
@@ -95,12 +86,7 @@ let createForm = useForm({
                 </div>
                 <div
                     class="mt-4"
-                    v-if="
-                        createForm.statut == 'cathedrale' ||
-                        createForm.statut == 'paroisse' ||
-                        createForm.statut == 'chapelle' ||
-                        createForm.statut == 'quasiparoisse'
-                    "
+
                 >
                     <InputLabel for="doyenne" value="Doyenné*" />
                     <TextInput
@@ -168,8 +154,6 @@ let createForm = useForm({
                     <MazPhoneNumberInput
                         defaultCountryCode="SN"
                         v-model="createForm.telephonefixe"
-
-
                         :translations="{
                             countrySelector: {
                                 placeholder: 'Code pays',
@@ -195,7 +179,6 @@ let createForm = useForm({
                             id="emailinstitution"
                             v-model="createForm.emailinstitution"
                             type="email"
-
                             class="mt-1 block w-full"
                             autocomplete="emailinstitution"
                         />
@@ -260,7 +243,6 @@ let createForm = useForm({
                     <MazPhoneNumberInput
                         defaultCountryCode="SN"
                         v-model="createForm.telephonemobile"
-
                         required
                         :translations="{
                             countrySelector: {
@@ -365,8 +347,6 @@ let createForm = useForm({
                     <MazPhoneNumberInput
                         defaultCountryCode="SN"
                         v-model="createForm.telephonefixedemandeur"
-
-
                         :translations="{
                             countrySelector: {
                                 placeholder: 'Code pays',
@@ -392,7 +372,6 @@ let createForm = useForm({
                     <MazPhoneNumberInput
                         defaultCountryCode="SN"
                         v-model="createForm.telephonemobiledemandeur"
-
                         required
                         :translations="{
                             countrySelector: {
@@ -405,7 +384,6 @@ let createForm = useForm({
                             },
                         }"
                     />
-
 
                     <InputError
                         class="mt-2"
@@ -429,7 +407,13 @@ let createForm = useForm({
                 </div>
             </div>
 
-            <PrimaryButton type="submit" :disabled="createForm.processing" class="disabled:cursor-not-allowed"> Demander une adhésion </PrimaryButton>
+            <PrimaryButton
+                type="submit"
+                :disabled="createForm.processing"
+                class="disabled:cursor-not-allowed"
+            >
+            envoyer la demande
+            </PrimaryButton>
         </div>
     </form>
     <Banner />

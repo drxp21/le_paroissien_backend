@@ -88,7 +88,7 @@ const createCsv = () => {
         <Head title="Collecte de fonds" />
         <div class="px-10 mt-10">
             <PrimaryButton @click="showCreateModal = true">
-                Créer une collecte de fonds
+                enregistrer une collecte
             </PrimaryButton>
             <!-- <button
             v-if="collectes.length > 0"

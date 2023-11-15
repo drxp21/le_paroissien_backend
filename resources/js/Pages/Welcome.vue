@@ -15,6 +15,9 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 
 let showQsn = ref(false);
+let showLpp = ref(false);
+let showDst = ref(false);
+
 let showNv = ref(false);
 let showCa = ref(false);
 let showAdhesionModal = ref(false);
@@ -61,7 +64,7 @@ onMounted(() => {});
                     class="flex items-center bg-white px-3 py-4 justify-between rounded-md mt-5 shadow-lg"
                     @click="showQsn = !showQsn"
                 >
-                    Qui sommes nous ?
+                    •Qu’est-ce que « Le Paroissien »?
                     <svg
                         class="ml-2 -mr-0.5 h-4 w-4 transition-all"
                         :class="showQsn ? 'rotate-180' : ''"
@@ -92,7 +95,73 @@ onMounted(() => {});
                                 <div
                                     class="mt-2 py-3 px-3 rounded-lg flex gap-4 justify-between items-center"
                                 >
-                                    * Texte Qui sommes nous *
+                                    Une plateforme web et mobile fait pour
+                                    faciliter l’échange entre les paroissiens et
+                                    leurs paroisses
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+                <div
+                    role="button"
+                    class="flex items-center bg-white px-3 py-4 justify-between rounded-md mt-5 shadow-lg"
+                    @click="showLpp = !showLpp"
+                >
+                    « Le Paroissien » permet de :
+                    <svg
+                        class="ml-2 -mr-0.5 h-4 w-4 transition-all"
+                        :class="showLpp ? 'rotate-180' : ''"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clip-rule="evenodd"
+                        />
+                    </svg>
+                </div>
+                <transition
+                    enter-active-class="duration-300 ease-out"
+                    enter-from-class="transform opacity-0"
+                    enter-to-class="opacity-100"
+                    leave-active-class="duration-100 ease-in"
+                    leave-from-class="opacity-100"
+                    leave-to-class="transform opacity-0"
+                >
+                    <div v-if="showLpp">
+                        <div
+                            class="flex flex-col items-center gap-3 mt-2 whitespace-pre-wrap"
+                        >
+                            <div class="w-full">
+                                <div
+                                    class="mt-2 py-3 px-3 rounded-lg flex gap-4 justify-between items-center"
+                                >
+                                    S’inscrire dans le but d’être informer de
+                                    toutes les activités de la paroisse telles
+                                    que <br />-Les programmes de messe
+                                    <br />-Les réunions de CEB <br />-Les
+                                    activités paroissiales et de l’église
+                                    nationale (kermesses, Journée Mondiale de la
+                                    Jeunesse Catholique, Bancs de Mariage,
+                                    Récollection, Nécrologie, …)
+                                    <br /><br />Faire des demandes de messes
+                                    <br /><br />Prier et lire l’évangile
+                                    <br /><br />S’inscrire à des évènements
+                                    <br />-Retraites spirituelles
+                                    <br />-Mouvements catholiques ( scout, cvav,
+                                    enfant de cœur,…)<br />-Pèlerinage
+                                    <br /><br />Faire un don et autres
+                                    obligations financières du Paroissien
+                                    <br />-Dime <br />-Denier de Culte
+                                    <br />-Don église (aide pour les prêtres,
+                                    construction église, offrande) <br />-Don
+                                    Caritas <br />-Aide Pouponnière <br />-Etc.
+                                    <br />
+                                    Demander des documents <br />-Extrait de
+                                    baptême <br />-Certificat de Mariage
                                 </div>
                             </div>
                         </div>
@@ -103,7 +172,7 @@ onMounted(() => {});
                     class="flex items-center bg-white px-3 py-4 justify-between rounded-md mt-5 shadow-lg"
                     @click="showNv = !showNv"
                 >
-                    Nos valeurs
+                    Pourquoi ce nom?
                     <svg
                         class="ml-2 -mr-0.5 h-4 w-4 transition-all"
                         :class="showNv ? 'rotate-180' : ''"
@@ -134,7 +203,9 @@ onMounted(() => {});
                                 <div
                                     class="mt-2 py-3 px-3 rounded-lg flex gap-4 justify-between items-center"
                                 >
-                                    * Texte Nos valeurs *
+                                    Pour donner, à la première attente, le but
+                                    essentiel et l’appartenance de cette
+                                    application
                                 </div>
                             </div>
                         </div>
@@ -143,12 +214,12 @@ onMounted(() => {});
                 <div
                     role="button"
                     class="flex items-center bg-white px-3 py-4 justify-between rounded-md mt-5 shadow-lg"
-                    @click="showCa = !showCa"
+                    @click="showDst = !showDst"
                 >
-                    Charte d'adhésion
+                    •À qui est destiné « Le Paroissien »?
                     <svg
                         class="ml-2 -mr-0.5 h-4 w-4 transition-all"
-                        :class="showCa ? 'rotate-180' : ''"
+                        :class="showDst ? 'rotate-180' : ''"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
@@ -168,7 +239,7 @@ onMounted(() => {});
                     leave-from-class="opacity-100"
                     leave-to-class="transform opacity-0"
                 >
-                    <div v-if="showCa">
+                    <div v-if="showDst">
                         <div
                             class="flex flex-col items-center gap-3 mt-2 whitespace-pre-wrap"
                         >
@@ -176,14 +247,14 @@ onMounted(() => {});
                                 <div
                                     class="mt-2 py-3 px-3 rounded-lg flex gap-4 justify-between items-center"
                                 >
-                                    * Texte Charte d'adhésion*
+                                    À tout paroissien.
                                 </div>
                             </div>
                         </div>
                     </div>
                 </transition>
             </div>
-            <div class=" p-3 text-sm">
+            <div class="p-3 text-sm">
                 Verset du jour
                 <p class="text-md font-semibold">{{ edj.titre }}</p>
                 <div class="text-end text-xs">

@@ -14,6 +14,7 @@ use App\Http\Controllers\PermanenceMesseController;
 use App\Http\Controllers\PermanencePretresController;
 use App\Http\Controllers\PermanenceSecretariatController;
 use App\Http\Controllers\SuperAdminController;
+use App\Mail\InvitationMail;
 use App\Models\Collecte;
 use App\Models\Institution;
 use App\Models\Pelerinage;
@@ -26,6 +27,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -68,7 +70,18 @@ Route::middleware([
 
         return Auth::user()->role == 'superadmin' ?  Inertia::render('SuperAdmin/Dashboard', compact('demandeurs')) : Inertia::render('Dashboard');
     })->name('dashboard');
+    Route::post('inviter',function(Request $request){
+        $request->validate([
+            'email'=>'required|email|unique:institutions,emaildemandeur',
+            'message'=>'required',
+        ],[
+            'email.unique'=>'Ce responsable a déjà fait une demande d\'adhésion !'
+        ]);
+        Mail::to($request->email)->send(new InvitationMail($request->message));
+        session()->flash('flash.banner', 'Email d\'invitation envoyé avec succès');
 
+
+    } )->name('inviter');
     Route::resource('/annonces', AnnonceController::class);
     Route::resource('/permanencesmesse', PermanenceMesseController::class);
     Route::resource('/permanencesconfession', PermanenceConfessionController::class);

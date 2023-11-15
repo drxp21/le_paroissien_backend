@@ -41,7 +41,7 @@ class InstitutionController extends Controller
         foreach (User::where('role', 'superadmin')->get() as $user) {
             Mail::to($user->email)->send(new NewAdhesionMail($request->prenomdemandeur,$request->nomdemandeur, $request->telephonemobiledemandeur, $request->emaildemandeur, $request->denomination, $request->statut));
         }
-        session()->flash('flash.banner', 'Votre demande  d\'adhésion a été reçue. Vous recevrez un email une fois votre demande traitée');
+        session()->flash('flash.banner', 'Votre demande d\'adhésion a été transmise. Vous recevez vos accès par email une fois la demande traitée.');
         return redirect()->route('home');
     }
     public function historique()
