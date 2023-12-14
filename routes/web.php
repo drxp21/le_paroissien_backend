@@ -3,7 +3,6 @@
 use App\Http\Controllers\AnnonceController;
 use App\Http\Controllers\CollecteController;
 use App\Http\Controllers\DemandeMesseController;
-use App\Http\Controllers\DispoPretreController;
 use App\Http\Controllers\DonController;
 use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\HelperFuncs;
@@ -89,7 +88,6 @@ Route::middleware([
     Route::resource('/permanencessecretariat', PermanenceSecretariatController::class);
     Route::resource('/pelerinage', PelerinageController::class);
     Route::resource('/demandemesses', DemandeMesseController::class);
-    Route::resource('/dispopretres', DispoPretreController::class);
     Route::resource('/evenements', EvenementController::class);
     Route::resource('/dons', DonController::class);
     Route::resource('/collectes', CollecteController::class);

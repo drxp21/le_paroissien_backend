@@ -2,7 +2,6 @@
 
 use App\Models\Annonce;
 use App\Models\DemandeMesse;
-use App\Models\DispoPretre;
 use App\Models\Institution;
 use App\Models\Collecte;
 use App\Models\Don;
