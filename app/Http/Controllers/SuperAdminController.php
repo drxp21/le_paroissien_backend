@@ -109,6 +109,13 @@ class SuperAdminController extends Controller
         $admins = User::where('role', 'superadmin')->get();
         return Inertia::render('SuperAdmin/UsersView', compact('admins'));
     }
+
+    /**
+     * Create  a new SuperAdmin user
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
     public function create_admin(Request $request)
     {
         $request->validate([

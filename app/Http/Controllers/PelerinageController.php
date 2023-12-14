@@ -92,7 +92,12 @@ class PelerinageController extends Controller
     {
         Pelerinage::find($id)->delete();
     }
-
+     /**
+     * Register physical inscription for a pelerinage
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
     public function pelerinagePhysique(Request $request)
     {
         $request->validate([

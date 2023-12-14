@@ -216,7 +216,7 @@ onMounted(() => {
                                                 new Intl.DateTimeFormat(
                                                     "fr-FR",
                                                     options
-                                                ).format(demandeur.created_at)
+                                                ).format(new Date(demandeur.created_at))
                                             }}
                                         </td>
                                         <td

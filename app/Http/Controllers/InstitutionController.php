@@ -44,6 +44,13 @@ class InstitutionController extends Controller
         session()->flash('flash.banner', 'Votre demande d\'adhésion a été transmise. Vous recevez vos accès par email une fois la demande traitée.');
         return redirect()->route('home');
     }
+
+     /**
+     * Get all transactions assiociated with a specific institution
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
     public function historique()
     {
 

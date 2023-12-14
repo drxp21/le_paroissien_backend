@@ -91,6 +91,14 @@ class CollecteController extends Controller
         Collecte::find($id)->delete();
         return redirect(route('collectes.index'));
     }
+
+
+    /**
+     * Register physical donnation for a specific fund raising
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
     public function collectePhysique(Request $request)
     {
         $request->validate([
