@@ -59,8 +59,7 @@ const createdemandemesse = () => {
     });
 };
 const updatedemandemesse = () => {
-    updateForm.auteur =
-        updateForm.auteur == "" ? "Anonyme" : updateForm.auteur;
+    updateForm.auteur = updateForm.auteur == "" ? "Anonyme" : updateForm.auteur;
     updateForm.put(route("demandemesses.update", updateForm), {
         onSuccess: () => {
             router.visit(route("demandemesses.index"));
@@ -160,6 +159,7 @@ onMounted(() => {
                     <span class="flex-[2] pl-3"> Date</span>
                     <span class="flex-[2] pl-3">Heure </span>
                     <span class="flex-[2] pl-3">Type </span>
+                    <span class="flex-[2] pl-3"> Mode de paiement</span>
                     <span class="flex-[3] pl-3">Action</span>
                 </li>
                 <li
@@ -188,6 +188,9 @@ onMounted(() => {
                     </span>
                     <span class="flex-[2] pl-3"> {{ demandemesse.heure }}</span>
                     <span class="flex-[2] pl-3"> {{ demandemesse.type }} </span>
+                    <span class="flex-[2] pl-3 capitalize">
+                        {{ demandemesse.operateur ? demandemesse.operateur : "Espèces" }}
+                    </span>
                     <div class="flex-[3] flex gap-3 text-white justify-start">
                         <button
                             :disabled="demandemesse.paroissien_id"
