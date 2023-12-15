@@ -13,3 +13,4 @@ class ParoissienIntention extends Model
         'intention_id'
     ];
 }
+
